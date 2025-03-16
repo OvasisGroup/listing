@@ -12,7 +12,7 @@ type Users = {
     createdAt: string;              
 }
 
-export default function DemoPage() {
+export default function UsersPage() {
     const [data, setData] = useState<Users[]>([]);
     const [loading, setLoading] = useState(true);
   

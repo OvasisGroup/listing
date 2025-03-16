@@ -1,4 +1,5 @@
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableDemo } from "@/components/tables/TableDemo";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 
 
@@ -21,8 +22,12 @@ export default async function Page() {
             <Card>
                 <CardHeader>
                     <CardTitle>Users</CardTitle>
-                    <CardDescription>Manager Users</CardDescription>
+                    <CardDescription>Manager Users o</CardDescription>
+                    
                 </CardHeader>
+                <CardContent>
+                    <TableDemo />
+                    </CardContent>
             </Card>
         </div>
     </div>
