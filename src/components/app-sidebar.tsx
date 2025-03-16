@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  BookOpen,
+  LayoutList,
   Users,
   Frame,
   LifeBuoy,
@@ -48,65 +48,47 @@ const data = {
       icon: Users,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Job Seekers",
+          url: "/admin/users/jobseekers",
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Companies",
+          url: "/admin/users/companies",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Administrators",
+          url: "/admin/users/admins",
         },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      title: "Categories",
+      url: "/admin/categories",
+      icon: LayoutList,
     },
     {
-      title: "Settings",
-      url: "#",
+      title: "SubCategories",
+      url: "/admin/categories/subcategories",
       icon: Settings2,
+    },
+
+    {
+      title: "Jobs",
+      url: "/admin/jobs",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "CMS",
+      url: "/admin/cms",
+      icon: LayoutDashboard,
       items: [
         {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+          title: "About",
+          url: "/admin/cms/about",
+          icon: LayoutDashboard,
+        }
+      ]
+    }
   ],
   navSecondary: [
     {
@@ -122,17 +104,17 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Main Categories",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Sub Categories",
       url: "#",
       icon: PieChart,
     },
     {
-      name: "Travel",
+      name: "Bookings",
       url: "#",
       icon: Map,
     },

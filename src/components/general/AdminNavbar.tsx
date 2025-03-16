@@ -10,7 +10,7 @@ export default async function AdminNavbar() {
    const session = await auth();
   return (
     <div className="flex flex-row gap-2">
-        <div className='hidden md:flex items-center gap-4'>
+        <div className='flex items-center gap-4'>
                 <ThemeToggle/>
                 <MailIcon className="h-6 w-6"/>
                 <BellIcon className="h-6 w-6"/>
