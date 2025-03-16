@@ -134,3 +134,46 @@ model Authenticator {
  
   @@id([userId, credentialID])
 }
+
+model Tvets {
+  id            String   @id @default(cuid())
+  name          String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Category model for main categories
+model Category {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  slug          String        @unique
+  description   String?
+  image         String?
+  icon          String?
+  isActive      Boolean       @default(true)
+  subCategories SubCategory[] // Relation to subcategories
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([slug])
+}
+
+// SubCategory model for sub-categories
+model SubCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  isActive    Boolean  @default(true)
+  categoryId  String   // Foreign key to Category
+
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
+}
+

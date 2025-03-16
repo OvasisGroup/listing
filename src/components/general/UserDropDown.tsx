@@ -1,7 +1,7 @@
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ArrowUpRight, ChevronDown, Heart, Layers2, LogOut } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Heart, HouseIcon, Layers2, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/lib/auth";
@@ -18,7 +18,7 @@ export default function UserDropDown({ email, name, image }: iAppProps) {
         <DropdownMenu>
             <DropdownMenuTrigger asChild >
                 <div className=" flex items-center border-none  cursor-pointer text-white">
-                    <Avatar className="size-12">
+                    <Avatar className="size-8">
                         <AvatarImage src={image} alt="profile image" />
                         <AvatarFallback className="text-primary">{name.charAt(1)}</AvatarFallback>
                     </Avatar>
@@ -32,6 +32,13 @@ export default function UserDropDown({ email, name, image }: iAppProps) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
+                <DropdownMenuItem>
+                        <Link href={'/admin'} className="flex items-center gap-2 justify-between w-full">
+                        <span><HouseIcon /></span>
+                        <span> My Dashboard</span>
+                        <DropdownMenuShortcut><ArrowUpRight/></DropdownMenuShortcut>
+                        </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Link href={'/profile'} className="flex items-center gap-2 justify-between w-full">
                         <span><Layers2 /></span>

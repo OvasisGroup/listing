@@ -1,7 +1,7 @@
 import type { NextAuthConfig } from "next-auth"
-import Apple from "next-auth/providers/apple"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
+import Credentials from 'next-auth/providers/credentials';
  
 export default { 
-    providers: [Google, GitHub, Apple] } satisfies NextAuthConfig
+    providers: [Google, GitHub, Credentials] } satisfies NextAuthConfig

@@ -15,7 +15,7 @@ async function checkIfUserHasFinishedOnboarding(userId: string) {
    });
 
    if (user?.onboardingCompleted === true) {
-    return redirect('/');
+    return redirect('/admin');
    }
 
    return user; 

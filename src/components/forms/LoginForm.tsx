@@ -20,6 +20,10 @@ export async function LoginForm() {
                 </CardHeader>
                 <CardContent>
                     <div className='flex flex-col gap-4'>
+                        <form>
+                            <input type="text" placeholder="Email" className="w-full border-none shadow-none outline-none" />
+                            <input type="password" placeholder="Password" className="w-full border-none shadow-none outline-none" />
+                        </form>
                         <form action={async () => {
                             "use server";
                             await signIn("google", {
