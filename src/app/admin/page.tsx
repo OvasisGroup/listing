@@ -1,4 +1,3 @@
-import { CalendarDemo } from "@/components/general/Calendar";
 import CompanySummaryTable from "@/components/tables/CompanySummaryTable";
 import JobSeekerSummary from "@/components/tables/JobSeekerSummary";
 import { TableDemo } from "@/components/tables/TableDemo";
@@ -33,7 +32,7 @@ export default async function Page() {
                             <CardDescription>Manager Users</CardDescription>
                         </CardHeader>
                         <CardContent className="w-full">
-                            <CalendarDemo/>
+         
                         </CardContent>
                     </Card>
                 </div>
