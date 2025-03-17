@@ -2,7 +2,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -11,8 +10,6 @@ import {
 } from "@/components/ui/table"
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { ArrowBigRight } from "lucide-react";
 
 type Users = {
   id: string;
@@ -56,12 +53,6 @@ export function TableDemo() {
 
   return (
     <Table>
-      <TableCaption>
-        <div className="flex items-center gap-2">
-          <Button>View All <ArrowBigRight/></Button>
-        </div>
-        
-      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">#</TableHead>
@@ -73,7 +64,7 @@ export function TableDemo() {
         {data.map((invoice) => (
           <TableRow key={invoice.id}>
             <TableCell className="font-medium">
-              <Image src={invoice.image} alt="Item" width={30} height={30} className="w-10 h-10 rounded-full object-cover" />
+              <Image src={invoice.image} alt="Item" width={20} height={20} className="w-5 h-5 rounded-full object-cover" />
             </TableCell>
             <TableCell>{invoice.name}</TableCell>
             <TableCell>

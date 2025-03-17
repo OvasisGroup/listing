@@ -56,7 +56,7 @@ export const columns: ColumnDef<Users>[] = [
                   alt="Item"
                   width={40}
                   height={40}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="w-7.5 h-7.5 rounded-full object-cover"
                 />
               </div>
             );

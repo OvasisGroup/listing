@@ -26,6 +26,7 @@ model User {
   userType      UserType?
 
   onboardingCompleted Boolean @default(false)
+  lastLogin DateTime @default(now()) // Add this field
 
   Company       Company?
   JobSeeker     JobSeeker?
