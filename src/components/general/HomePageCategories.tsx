@@ -75,8 +75,9 @@ export default function HomePageCategories() {
                 <p className='text-xl'>Looking for work? <span className='text-primary'><Link href={'/jobs'}>Browse Jobs</Link></span></p>
             </motion.div>
             <motion.div className="grid md:grid-cols-4 gap-6 mt-10"
-             initial={{ opacity: 0 }}
-             whileInView={{ opacity: 1 }}
+             initial={{ opacity: 0, y: 50 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.5, delay: 0.5 }}
             >
             {Categories.map((category) => (
                 <Link key={category.id} href={`/jobs/${category.id}`}>
