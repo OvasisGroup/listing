@@ -3,6 +3,7 @@ import HomePageSearch from "@/components/forms/onboarding/HomePageSearch";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HomePageCategories from "@/components/general/HomePageCategories";
+import AdvertSection from "@/components/general/AdvertSection";
 
 export default function Home() {
   return (
@@ -29,8 +30,11 @@ export default function Home() {
         </div>
       </div>
     </div>
-    <div className="">
+    <div className="mb-10">
       <HomePageCategories/>
+    </div>
+    <div className="mb-10">
+      <AdvertSection/>
     </div>
   </>
   );
