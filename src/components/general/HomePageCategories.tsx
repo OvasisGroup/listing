@@ -85,7 +85,7 @@ export default function HomePageCategories() {
                         <Image src={category.icon} alt={category.name} width={60} height={60} />
                     </CardHeader>
                     <CardContent className=' first:text-white'>
-                        <p className='font-bold text-2xl '>{category.name}</p>
+                        <p className='font-bold text-xl '>{category.name}</p>
                     </CardContent>
                     <CardFooter className='flex items-center justify-between'>
                     <div className='flex items-center'>
