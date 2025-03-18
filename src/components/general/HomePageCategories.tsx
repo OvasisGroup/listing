@@ -8,7 +8,6 @@ import Image from 'next/image';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-
 const Categories = [
     {
         id: "1",
@@ -47,7 +46,7 @@ const Categories = [
     },
     {
         id: "6",
-        icon: "/images/SVG/TukTuk.svg",
+        icon: "/images/tuktuk.png",
         name: "TukTuk Services",
         description: "Tuk Tuk has working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt. ",
         skills: "300"
