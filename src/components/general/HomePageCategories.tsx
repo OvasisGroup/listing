@@ -6,6 +6,8 @@ import { ArrowUpRightIcon, Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+
 
 const Categories = [
     {
@@ -83,7 +85,7 @@ export default function HomePageCategories() {
                 <Link key={category.id} href={`/jobs/${category.id}`}>
                 <Card key={category.id} className="shadow-none hover:bg-gray-800 hover:text-white">
                     <CardHeader>
-                        <Image src={category.icon} alt={category.name} width={60} height={60} />
+                        <Image src={`${BASE_URL}/{category.icon`} alt={category.name} width={60} height={60} />
                     </CardHeader>
                     <CardContent className=' first:text-white'>
                         <p className='font-bold text-xl '>{category.name}</p>
