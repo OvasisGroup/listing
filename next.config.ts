@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["lh3.googleusercontent.com", "mrkim-listings.vercel.app"],
+    domains: ["lh3.googleusercontent.com", "mrkim-listings.vercel.app", "localhost"],
     remotePatterns: [
       {
         protocol: "https",  

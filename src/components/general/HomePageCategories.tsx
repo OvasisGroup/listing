@@ -6,7 +6,7 @@ import { ArrowUpRightIcon, Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 const Categories = [
     {
@@ -46,7 +46,7 @@ const Categories = [
     },
     {
         id: "6",
-        icon: "/images/tuktuk.png",
+        icon: "/images/SVG/tuktuk.png",
         name: "TukTuk Services",
         description: "Tuk Tuk has working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt. ",
         skills: "300"
@@ -84,7 +84,7 @@ export default function HomePageCategories() {
                 <Link key={category.id} href={`/jobs/${category.id}`}>
                 <Card key={category.id} className="shadow-none hover:bg-gray-800 hover:text-white">
                     <CardHeader>
-                        <Image src={`${BASE_URL}/{category.icon`} alt={category.name} width={60} height={60} />
+                        <Image src={category.icon} alt={category.name} width={60} height={60} />
                     </CardHeader>
                     <CardContent className=' first:text-white'>
                         <p className='font-bold text-xl '>{category.name}</p>
