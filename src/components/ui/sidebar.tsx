@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { Text } from "lucide-react"
+import { ChevronsRight} from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -265,14 +265,14 @@ function SidebarTrigger({
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       size="icon"
-      className={cn("size-10 text-white", className)}
+      className={cn("size-10 text-white p-0", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
       }}
       {...props}
     >
-      <Text />
+      <ChevronsRight className="w-5 h-10" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

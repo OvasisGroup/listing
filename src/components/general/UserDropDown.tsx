@@ -1,7 +1,7 @@
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ArrowUpRight, ChevronDown, Heart, HouseIcon, Layers2, LogOut } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Heart, HouseIcon, Layers2, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/lib/auth";
@@ -50,6 +50,14 @@ export default function UserDropDown({ email, name, image }: iAppProps) {
                         <Link href={'/profile'} className="flex items-center gap-2 justify-between w-full">
                         <span><Heart /></span>
                         <span>Favorite Jobs</span>
+                        <DropdownMenuShortcut><ArrowUpRight/></DropdownMenuShortcut>
+                        </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                        <Link href={'/profile'} className="flex items-center gap-2 justify-between w-full">
+                        <span><User /></span>
+                        <span>Profile</span>
                         <DropdownMenuShortcut><ArrowUpRight/></DropdownMenuShortcut>
                         </Link>
                     </DropdownMenuItem>
