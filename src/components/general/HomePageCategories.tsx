@@ -84,7 +84,7 @@ export default function HomePageCategories() {
                 <Link key={category.id} href={`/jobs/${category.id}`}>
                 <Card key={category.id} className="shadow-none hover:bg-gray-800 hover:text-white">
                     <CardHeader>
-                        <Image src={category.icon} alt={category.name} width={60} height={60} />
+                        <Image src={category.icon} alt={category.name} width={40} height={40} />
                     </CardHeader>
                     <CardContent className=' first:text-white'>
                         <p className='font-bold text-xl '>{category.name}</p>
