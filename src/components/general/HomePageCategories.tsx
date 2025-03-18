@@ -11,35 +11,35 @@ import Image from 'next/image';
 const Categories = [
     {
         id: "1",
-        icon: "/images/SVG/Automotive.svg",
+        icon: "/images/SVG/automotive.png",
         name: "Automotive Services",
         description: "Automobile has working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt.",
         skills: "600"
     },
     {
         id: "2",
-        icon: "/images/SVG/Residential.svg",
+        icon: "/images/SVG/residential.png",
         name: "Residential Services",
         description: "Residential properties have working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt.",
         skills: "300"
     },
     {
         id: "3",
-        icon: "/images/SVG/Commercial.svg",
+        icon: "/images/SVG/commercial.png",
         name: "Commercial Services",
         description: "Commercial properties have working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt. ",
         skills: "100"
     },
     {
         id: "4",
-        icon: "/images/SVG/BodaBoda.svg",
+        icon: "/images/SVG/bodaboda.png",
         name: "Boda Boda Services",
         description: "Boda Boda has working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt. ",
         skills: "400"
     },
     {
         id: "5",
-        icon: "/images/SVG/Handyman.svg",
+        icon: "/images/SVG/handyman.png",
         name: "Handyman Services",
         description: "Residential and Commercial properties have working systems, moving and workings parts that are susceptible to tear and wear and will fail over time. The question is not whether or not a breakdown of such systems and parts will happen. No matter how diligent you are when it come to maintenance, the fact is, it is not a matter of how, it is a matter of when will breakdown of such systems and parts will occur. When breakdown of such systems and parts happen, they do not have to break your budget or bank. Mr.KIM professional service providers got you covered when breakdown of such systems and parts brings your life to a screeching halt.",
         skills: "500"
@@ -53,14 +53,14 @@ const Categories = [
     },
     {
         id: "7",
-        icon: "/images/SVG/Digital.svg",
+        icon: "/images/SVG/digital.png",
         name: "Digital Services",
         description: "If you are looking for the best professional event planner, lawyer, DJ, pet services, lessons, and many more, in your area, look no further than Mr.KIM. Mr.KIM platform offer expert professional services for those who need that critical eye. From ensuring that the services requested is delivered on time by our experienced, skilled, and reliable professional service providers to your satisfaction guaranteed, we will match you with a service professional provider that ticks all the boxes. Looking for professional service providers should be hustle free and you do not have to break your budget or bank. Mr.KIM professional service providers got you covered for all your professional service needs. Your life should not come to a screeching halt while searching for professional service providers.",
         skills: "200"
     },
     {
         id: "8",
-        icon: "/images/SVG/Other.svg",
+        icon: "/images/SVG/other.png",
         name: "Other Services",
         description: "If you are looking for the best professional event planner, lawyer, DJ, pet services, lessons, and many more, in your area, look no further than Mr.KIM. Mr.KIM platform offer expert professional services for those who need that critical eye. From ensuring that the services requested is delivered on time by our experienced, skilled, and reliable professional service providers to your satisfaction guaranteed, we will match you with a service professional provider that ticks all the boxes. Looking for professional service providers should be hustle free and you do not have to break your budget or bank. Mr.KIM professional service providers got you covered for all your professional service needs. Your life should not come to a screeching halt while searching for professional service providers.",
         skills: "500"
