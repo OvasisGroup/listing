@@ -8,7 +8,7 @@ export default function DashBoardCards() {
             <Card className='shadow-none border-none bg-gray-200 '>
                 <div className='flex flex-col justify-between items-start h-full px-6'>
                     <div>
-                    <h2 className='text-2xl font-bold text-primary'>Companies</h2>
+                    <h2 className='text-xl font-bold text-primary'>Companies</h2>
                     <p className='text-gray-800'>Current Total Companies</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
@@ -20,7 +20,7 @@ export default function DashBoardCards() {
             <Card className='shadow-none border-none bg-gray-200 '>
                 <div className='flex flex-col justify-between items-start h-full px-6'>
                     <div>
-                    <h2 className='text-2xl font-bold text-primary'>Job Seekers</h2>
+                    <h2 className='text-xl font-bold text-primary'>Job Seekers</h2>
                     <p className='text-gray-800'>Current Total Job Seekers</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
@@ -32,7 +32,7 @@ export default function DashBoardCards() {
             <Card className='shadow-none border-none bg-gray-200 '>
                 <div className='flex flex-col justify-between items-start h-full px-6'>
                     <div>
-                    <h2 className='text-2xl font-bold text-primary'>Job</h2>
+                    <h2 className='text-xl font-bold text-primary'>Job</h2>
                     <p className='text-gray-800'>Current Total Jobs</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
@@ -44,7 +44,7 @@ export default function DashBoardCards() {
             <Card className='shadow-none border-none bg-gray-200 '>
                 <div className='flex flex-col justify-between items-start h-full px-6'>
                     <div>
-                    <h2 className='text-2xl font-bold text-primary'>Revenue</h2>
+                    <h2 className='text-xl font-bold text-primary'>Revenue</h2>
                     <p className='text-gray-800'>Current Total Revenue</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
