@@ -12,7 +12,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Companies</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
@@ -24,7 +24,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Job Seekers</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Jobs</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Revenue</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
