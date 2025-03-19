@@ -1,3 +1,4 @@
+import ChatButton from "@/components/general/ChatButton";
 import { Navbar } from "@/components/general/Navbar";
 
 export default function MainLayout({ children}: { children: React.ReactNode}) {
@@ -5,6 +6,7 @@ export default function MainLayout({ children}: { children: React.ReactNode}) {
     <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <Navbar/>
         {children}
+        <ChatButton />
     </div>
   )
 }

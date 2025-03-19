@@ -55,7 +55,7 @@ export default function UserDropDown({ email, name, image }: iAppProps) {
                     </DropdownMenuItem>
 
                     <DropdownMenuItem>
-                        <Link href={'/profile'} className="flex items-center gap-2 justify-between w-full">
+                        <Link href={'/admin/profile'} className="flex items-center gap-2 justify-between w-full">
                         <span><User /></span>
                         <span>Profile</span>
                         <DropdownMenuShortcut><ArrowUpRight/></DropdownMenuShortcut>
