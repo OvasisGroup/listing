@@ -27,15 +27,9 @@ export default async function Page() {
                         <DashBoardCards/>
      
                 <div className="col-span-1">
-                    <Card className="w-full">
-                        <CardHeader>
-                            <CardTitle>Revenue / Users</CardTitle>
-                            <CardDescription>Manage  Users VS Revenue</CardDescription>
-                        </CardHeader>
-                        <CardContent className="w-full">
+                    
                             <ChartHomePage/>
-                        </CardContent>
-                    </Card>
+
                 </div>
             </div>
             <div className="grid md:grid-cols-3 gap-4 mt-6">
