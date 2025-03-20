@@ -1,6 +1,8 @@
 import React from 'react'
 import { Card } from '../ui/card'
 import { ArrowUpRight } from 'lucide-react'
+import UserCount from './UsersCount'
+import JobSeekerCount from './JobSeekersCount'
 
 export default function DashBoardCards() {
     return (
@@ -12,7 +14,9 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Companies</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>
+                        <UserCount/>
+                        </h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
@@ -24,7 +28,9 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Job Seekers</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
+                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>
+                            <JobSeekerCount/>
+                        </h1>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
