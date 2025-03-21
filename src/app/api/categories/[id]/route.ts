@@ -1,15 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
-    try {
-        const { id } = context.params; // Access params from the context argument
 
-        // Fetch the category by ID, including its subcategories
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    try {
+        const { id } = params;
+        if (!id) {
+            return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
+        }
+
         const category = await prisma.category.findUnique({
             where: { id },
             include: {
-                subCategories: true, // Include related subcategories
+                subCategories: true,
             },
         });
 
@@ -19,7 +22,7 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 
         return NextResponse.json({ success: true, data: category }, { status: 200 });
     } catch (error) {
-        console.error("Error fetching category:", error);
+        console.error("Error fetching category:", (error as Error).message);
         return NextResponse.json({ error: "Failed to fetch category" }, { status: 500 });
     }
 }
