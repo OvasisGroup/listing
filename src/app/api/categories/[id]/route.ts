@@ -3,6 +3,7 @@ import { prisma } from "../../../../../prisma/prisma";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     try {
+        // Await the params object to ensure it's resolved
         const { id } = params;
 
         // Fetch the category by ID, including its subcategories
