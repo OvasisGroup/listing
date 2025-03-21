@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context: { params: { id: string } }) {
     try {
-        // Await the params object to ensure it's resolved
-        const { id } = params;
+        const { id } = context.params; // Access params from the context argument
 
         // Fetch the category by ID, including its subcategories
         const category = await prisma.category.findUnique({
