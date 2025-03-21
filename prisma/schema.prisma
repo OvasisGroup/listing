@@ -23,6 +23,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  profile       Profile?
   userType      UserType?
 
   onboardingCompleted Boolean @default(false)
@@ -48,6 +49,19 @@ enum Role {
 enum UserType {
   COMPANY
   JOB_SEEKER
+}
+
+model Profile {
+  id     String  @id @default(uuid())
+  userId String  @unique
+  name   String
+  image  String?
+  location String?
+  about  String?
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  telephone String?
+  subCategories  SubCategory[]  @relation("ProfileSubCategories") // Relation to SubCategory model
+  
 }
 
 model Company {
@@ -169,7 +183,8 @@ model SubCategory {
   categoryId  String   // Foreign key to Category
 
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  
+  profiles    Profile[]  @relation("ProfileSubCategories") 
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

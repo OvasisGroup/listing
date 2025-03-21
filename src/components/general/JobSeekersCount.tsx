@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 export default function JobSeekerCount() {
   const [count, setCount] = useState<number | null>(null);
@@ -29,7 +30,11 @@ export default function JobSeekerCount() {
       ) : count !== null ? (
         <p>{count}</p>
       ) : (
-        <small>Loading...</small>
+        <motion.div
+          className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+        />
       )}
     </div>
   );

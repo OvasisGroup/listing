@@ -1,10 +1,14 @@
+import UserProfilesPage from '@/components/forms/UserProfilePage';
 import UserProfilePage from '@/components/general/UserProfilePage'
+import { requireUser } from '@/utils/requireUser';
 import React from 'react'
 
-export default function UserProfile() {
+export default async function UserProfile() {
+  const session = await requireUser();
   return (
     <div>
-        <UserProfilePage/> 
+      <UserProfilesPage/>
+        <UserProfilePage email={session.email as string} image={session.image as string} name={session.name as string}/>
     </div>
   )
 }

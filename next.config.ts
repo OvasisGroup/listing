@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         hostname: "utfs.io",
         port: "",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000", // Replace with your development server port if different
+        pathname: "/**", // Allow all paths
+      },
     ],
   }
 };

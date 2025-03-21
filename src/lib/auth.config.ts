@@ -4,4 +4,5 @@ import Google from "next-auth/providers/google"
 import Credentials from 'next-auth/providers/credentials';
  
 export default { 
-    providers: [Google, GitHub, Credentials] } satisfies NextAuthConfig
+    providers: [Google, GitHub, Credentials]
+ } satisfies NextAuthConfig

@@ -1,0 +1,111 @@
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { ColumnDef } from "@tanstack/react-table"
+import { Checkbox } from "@/components/ui/checkbox"
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
+
+
+// 
+const formatDate = (isoDate: string) => {
+    return new Date(isoDate).toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+  
+
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+export type Categories = {
+    id: string;
+    name: string;
+    description: string;
+    createdAt: string;              
+}
+
+export const columns: ColumnDef<Categories>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: "name",
+        header: "Name",    
+      },
+    {
+        accessorKey: "description",
+        header: "Description",
+    cell: ({ row }) => (
+      <div className="whitespace-normal line-clamp-3 break-words max-w-[600px]">
+        {row.getValue("description")}
+      </div>
+    ),    
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Date Created",
+        cell: ({ row }) => {
+          const value = row.getValue("createdAt") as string;
+          return formatDate(value);
+        },
+      },
+  
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const item = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => console.log("Edit", item)}>
+              <Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(item.id)} className="text-red-500">
+              <Trash className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+]
+
+// Handlers
+// const handleEdit = (item: Item) => {
+//     console.log("Edit", item);
+//     // Open modal or navigate to edit page
+//   };
+  
+  const handleDelete = (id: string) => {
+    console.log("Delete", id);
+    // Call API or update state to remove item
+  };
+  
