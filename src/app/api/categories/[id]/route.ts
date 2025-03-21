@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     try {
         const { id } = params;
 
-        // Fetch the category by ID
+        // Fetch the category by ID, including its subcategories
         const category = await prisma.category.findUnique({
             where: { id },
+            include: {
+                subCategories: true, // Include related subcategories
+            },
         });
 
         if (!category) {
