@@ -85,7 +85,7 @@ export const columns: ColumnDef<Categories>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => console.log("Edit", item)}>
+            <DropdownMenuItem onClick={() => handleEdit(item)}>
               <Pencil className="mr-2 h-4 w-4" /> Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(item.id)} className="text-red-500">
@@ -98,14 +98,15 @@ export const columns: ColumnDef<Categories>[] = [
   },
 ]
 
+
 // Handlers
-// const handleEdit = (item: Item) => {
-//     console.log("Edit", item);
-//     // Open modal or navigate to edit page
-//   };
+const handleEdit = (item: Categories) => {
+    console.log("Edit", item);
+    window.location.href = `/admin/categories/edit/${item.id}`;
+  };
   
   const handleDelete = (id: string) => {
     console.log("Delete", id);
     // Call API or update state to remove item
   };
-  
+

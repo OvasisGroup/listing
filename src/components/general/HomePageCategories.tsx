@@ -20,7 +20,7 @@ export default function HomePageCategories() {
       useEffect(() => {
         const fetchData = async () => {
           try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories/createCategories`); // Replace with your API
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`); // Replace with your API
             const json = await res.json();
             setData(json);
           } catch (error) {

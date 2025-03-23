@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth'
 import Image from 'next/image'
 import UserDropDown from './UserDropDown'
 import { NavigationMenuDemo } from './NavMenu'
+import MobileNav from './MobileNav'
 
 export async function Navbar() {
     const session = await auth();
@@ -28,6 +29,8 @@ export async function Navbar() {
                     <Link href={'/login'} className={buttonVariants({ size: "lg"})} ><p className='text-white'>Get Started</p></Link>
                 )}
             </div>
+
+            <MobileNav/>
         </nav>
     )
 }
