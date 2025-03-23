@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
-    try {
-        const { id } = await context.params; // Await the params object
+// Define the type for context
+interface Context {
+    params: Promise<{ id: string }>; // 👈 `params` must be awaited
+}
 
+export async function GET(req: NextRequest, context: Context) {
+    try {
+        const { id } = await context.params; // ✅ Await `params`
+        
         if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
         }
@@ -25,15 +30,15 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     }
 }
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: Context) {
     try {
-        const { id } = await context.params; // Await the params object
+        const { id } = await context.params; // ✅ Await `params`
 
         if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
         }
 
-        const body = await req.json(); // Parse the request body
+        const body = await req.json();
         const { name, description } = body;
 
         // Update the category
