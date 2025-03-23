@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
     try {
-        const { id } = await context.params; // Await the params object
+        // ✅ Await params before accessing id
+        const params = await context.params; 
+        const { id } = params;
 
         if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
@@ -25,11 +27,17 @@ export async function GET(req: Request, context: { params: { id: string } }) {
     }
 }
 
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
     try {
-        const { id } = await context.params; // Await the params object
-        const body = await req.json(); // Parse the request body
+        // ✅ Await params before accessing id
+        const params = await context.params; 
+        const { id } = params;
 
+        if (!id) {
+            return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
+        }
+
+        const body = await req.json();
         const { name, description } = body;
 
         // Update the category
