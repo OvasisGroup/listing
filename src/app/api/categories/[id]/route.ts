@@ -1,15 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context: { params: { id: string } }) {
     try {
-        if (!params || !params.id) {
+        const { id } = await context.params; // Await the params object
+
+        if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
         }
 
         // Fetch the category by ID
         const category = await prisma.category.findUnique({
-            where: { id: params.id },
+            where: { id },
         });
 
         if (!category) {
@@ -23,18 +25,20 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
     try {
-        if (!params || !params.id) {
+        const { id } = context.params; // Await the params object
+
+        if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
         }
 
-        const body = await req.json();
+        const body = await req.json(); // Parse the request body
         const { name, description } = body;
 
         // Update the category
         const updatedCategory = await prisma.category.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 name: name || undefined,
                 description: description || undefined,
