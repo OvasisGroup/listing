@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
     try {
         const { id } = await context.params; // Await the params object
 
@@ -25,9 +25,9 @@ export async function GET(req: Request, context: { params: { id: string } }) {
     }
 }
 
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
     try {
-        const { id } = context.params; // Await the params object
+        const { id } = await context.params; // Await the params object
 
         if (!id) {
             return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
