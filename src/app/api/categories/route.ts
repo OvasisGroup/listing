@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { requireUser } from "@/utils/requireUser";
+// import { requireUser } from "@/utils/requireUser";
 import { prisma } from "../../../../prisma/prisma";
 
 export async function POST(req: Request) {
@@ -63,12 +63,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-    const session = await requireUser();
-
-    if (!session) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     try {
         const company = await prisma.category.findMany();
         return NextResponse.json(company, { status: 200 });
