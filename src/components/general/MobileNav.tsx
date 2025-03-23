@@ -28,13 +28,13 @@ export default async function MobileNav() {
                             {session?.user ? (
                                 <MobileDropdown email={session.user.email as string} name={session.user.name as string} image={session.user.image as string} />
                             ) : (
-                                <Link href={'/login'} className={buttonVariants({ size: "lg" })} ><p className='text-white'>Get Started</p></Link>
+                                <Link href={'/login'}><Button className='text-white w-full'>Get Started</Button></Link>
                             )}
                         </DrawerTitle>
                     </DrawerHeader>
                     <DrawerFooter>
                         <Link href={'/post-job'} className={buttonVariants({ size: "lg" })} >
-                        <Button>Post A Job</Button>
+                        <Button className='text-white'>Post A Job</Button>
                         </Link>
                     </DrawerFooter>
                 </DrawerContent>
