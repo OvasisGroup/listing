@@ -113,14 +113,14 @@ export default function CategoryDetail() {
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
                                                 <h2 className="text-lg font-bold">Subcategory Details</h2>
-                                                <p>Do you want to post a job with {sub.name}?</p>
+                                                <p>Do you want to post a job with <span className="font-bold text-primary">{sub.name}?</span></p>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
                                             <AlertDialogCancel>     
                                                     Cancel
                                                 </AlertDialogCancel>
                                                 <Button asChild className="text-white">
-                                                    <Link href={`/admin/categories/subcategories/${sub.id}`}>
+                                                    <Link href={`/post-job/${sub.id}`}>
                                                         Confirm
                                                     </Link>
                                                 </Button>
