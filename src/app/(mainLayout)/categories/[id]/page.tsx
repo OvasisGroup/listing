@@ -1,6 +1,8 @@
 "use client";
 
 import MainCategoriesSidebar from "@/components/general/MainCategoriesSidebar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -87,18 +89,16 @@ export default function CategoryDetail() {
 
     return (
         <div className="container mx-auto p-4 md:px-0">
+            <h1 className="text-3xl text-primary font-bold">All Categories</h1>
+            <p className="pb-6">Looking for Open Job Opportunities? <span className="text-primary font-bold">Find Jobs</span></p>
+            <form className="flex gap-2 mb-6"><Input placeholder="Search for categories" /><Button>Search</Button></form>
             <div className='grid md:grid-cols-3 gap-8'>
                 <div className="md:col-span-2 col-span-1 bg-grey">
                     <Image src={category.image} alt={category.name} width={1000} height={100} unselectable="off" className="mb-4 w-full rounded-2xl unclickable pointer-events-none select-none " />
                     <h1 className="text-2xl font-bold mb-4 text-primary">{category.name}</h1>
                     <p>{category.description}</p>
-                    <div className="border-b-1 border-primary mt-10"></div>
-                </div>
-                <div className=" rounded-2xl">
-                    <MainCategoriesSidebar/>
-                </div>
-            </div>
-            <div className="mt-8">
+                    <div className="border-b-1 border-primary mt-4"></div>
+                    <div className="mt-4">
                 <h2 className="text-xl font-semibold mb-4">Subcategories</h2>
                 {category.subCategories.length > 0 ? (
                     <ul className="list-disc pl-5">
@@ -112,6 +112,12 @@ export default function CategoryDetail() {
                     <p className="text-gray-500">No subcategories available.</p>
                 )}
             </div>
+                </div>
+                <div className=" rounded-2xl">
+                    <MainCategoriesSidebar/>
+                </div>
+            </div>
+            
         </div>
     );
 }
