@@ -17,6 +17,9 @@ export async function GET(req: NextRequest, context: Context) {
         // Fetch the category by ID
         const category = await prisma.category.findUnique({
             where: { id },
+            include: {
+                subCategories: true, // Ensure subCategories are included
+            },
         });
 
         if (!category) {

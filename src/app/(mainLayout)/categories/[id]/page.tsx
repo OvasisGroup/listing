@@ -1,8 +1,14 @@
 "use client";
 
+import MainCategoriesSidebar from "@/components/general/MainCategoriesSidebar";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+type SubCategory = {
+    id: string;
+    name: string;
+};
 
 type Category = {
     id: string;
@@ -10,6 +16,7 @@ type Category = {
     description: string;
     icon: string;
     image: string;
+    subCategories: SubCategory[]; // Add subcategories to the category type
 };
 
 export default function CategoryDetail() {
@@ -49,22 +56,22 @@ export default function CategoryDetail() {
         const handleContextMenu = (event: MouseEvent) => event.preventDefault();
         const handleCopy = (event: ClipboardEvent) => event.preventDefault();
         const handleKeyDown = (event: KeyboardEvent) => {
-          if (event.ctrlKey && (event.key === "c" || event.key === "u")) {
-            event.preventDefault();
-            console.log("Ctrl+C or Ctrl+U");
-          }
+            if (event.ctrlKey && (event.key === "c" || event.key === "u")) {
+                event.preventDefault();
+                console.log("Ctrl+C or Ctrl+U");
+            }
         };
-    
+
         document.addEventListener("contextmenu", handleContextMenu);
         document.addEventListener("copy", handleCopy);
         document.addEventListener("keydown", handleKeyDown);
-    
+
         return () => {
-          document.removeEventListener("contextmenu", handleContextMenu);
-          document.removeEventListener("copy", handleCopy);
-          document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("contextmenu", handleContextMenu);
+            document.removeEventListener("copy", handleCopy);
+            document.removeEventListener("keydown", handleKeyDown);
         };
-      }, []);
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>; // Show a loading message while fetching
@@ -80,10 +87,31 @@ export default function CategoryDetail() {
 
     return (
         <div className="container mx-auto p-4 md:px-0">
-            <Image src={category.image} alt={category.name} width={1000} height={100} unselectable="off"  className="mb-4 w-full rounded-2xl unclickable pointer-events-none select-none " />
-            <h1 className="text-2xl font-bold mb-4 text-primary">{category.name}</h1>
-            <p>{category.description}</p>
-            <div className="border-b-1 border-primary mt-10"></div>
+            <div className='grid md:grid-cols-3 gap-8'>
+                <div className="md:col-span-2 col-span-1 bg-grey">
+                    <Image src={category.image} alt={category.name} width={1000} height={100} unselectable="off" className="mb-4 w-full rounded-2xl unclickable pointer-events-none select-none " />
+                    <h1 className="text-2xl font-bold mb-4 text-primary">{category.name}</h1>
+                    <p>{category.description}</p>
+                    <div className="border-b-1 border-primary mt-10"></div>
+                </div>
+                <div className=" rounded-2xl">
+                    <MainCategoriesSidebar/>
+                </div>
+            </div>
+            <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-4">Subcategories</h2>
+                {category.subCategories.length > 0 ? (
+                    <ul className="list-disc pl-5">
+                        {category.subCategories.map((sub) => (
+                            <li key={sub.id} className="text-gray-700">
+                                {sub.name}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="text-gray-500">No subcategories available.</p>
+                )}
+            </div>
         </div>
     );
 }
