@@ -47,14 +47,14 @@ export default async function ProfilePage() {
         )}
 
         {/* Profile Details */}
-        {user.profile && (
+        {/* {user.profile && (
           <div>
             <h2 className="text-lg font-semibold">Profile Details</h2>
             <p><strong>Profile Name:</strong> {user.profile.name || "N/A"}</p>
             <p><strong>Location:</strong> {user.profile.location || "N/A"}</p>
             <p><strong>About:</strong> {user.profile.about || "N/A"}</p>
           </div>
-        )}
+        )} */}
 
         {/* Company Details */}
         {user.Company && (
@@ -71,10 +71,6 @@ export default async function ProfilePage() {
           <div>
             <h2 className="text-lg font-semibold">JobSeeker Details</h2>
             <p><strong>Resume:</strong> {user.JobSeeker.resume || "N/A"}</p>
-            <p><strong>Experience:</strong> {user.JobSeeker.about || "N/A"}</p>
-            <p><strong>Created At:</strong> {user.JobSeeker.createdAt.toString() || "N/A"}</p>
-            <p><strong>Updated At:</strong> {user.JobSeeker.updatedAt.toString() || "N/A"}</p>
-            <p><strong>Location:</strong> {user.JobSeeker.location || "N/A"}</p>
           </div>
         )}
       </div>
