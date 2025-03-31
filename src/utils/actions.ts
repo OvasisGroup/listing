@@ -32,6 +32,17 @@ export async function createCompany(data: z.infer<typeof companySchema>) {
         }
     });
 
+    // Create a profile for the user
+  await prisma.profile.create({
+    data: {
+      userId: session.id,
+      name: validateData.name,
+      location: validateData.location,
+      about: validateData.about,
+      title: "Default Title", // Replace "Default Title" with an appropriate value
+    },
+  });
+
     return redirect('/');
 }
 
@@ -58,6 +69,17 @@ export async function createJobSeeker(data: z.infer<typeof jobseekerSchema>) {
             }
         }
     });
+
+    // Create a profile for the user
+  await prisma.profile.create({
+    data: {
+      userId: user.id as string,
+      name: validateData.name,
+      location: validateData.location,
+      about: validateData.about,
+      title: "Default Title", // Replace "Default Title" with an appropriate value
+    },
+  });
 
     return redirect ('/')
 }

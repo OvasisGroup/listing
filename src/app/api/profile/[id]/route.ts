@@ -1,28 +1,21 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../../prisma/prisma";
 import { requireUser } from "@/utils/requireUser";
+import { prisma } from "../../../../../prisma/prisma";
 
 
 export async function PUT(req: Request) {
   const session = await requireUser();
   if (!session.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { name, image, about, location } = await req.json();
+  const { name, resumeUrl, companyName } = await req.json();
 
   try {
     await prisma.user.update({
       where: { id: session.id },
       data: {
         name,
-        image,
-        profile: {
-          update: {
-            name,
-            image,
-            about,
-            location
-          },
-        },
+        JobSeeker: resumeUrl ? { update: { resume: resumeUrl } } : undefined,
+        Company: companyName ? { update: { name: companyName } } : undefined,
       },
     });
 

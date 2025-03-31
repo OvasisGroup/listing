@@ -25,25 +25,25 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div>
+
       <div className="bg-[url('/images/splash.jpg')] bg-cover bg-center bg-no-repeat py-15 rounded-xl mb-4">
       <h1 className="text-2xl font-bold text-white pl-10">Profile</h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
         {/* User Details */}
-        <div>
-          <Image src={user.image || "/default-user-image.png"} alt="User Image" width={100} height={100} className="rounded-full" />
+        <div className="col-span-2 bg-white p-6 rounded-lg shadow-md">
+          <Image src={user.image || "/images/kimperson.png"} alt="User Image" width={100} height={100} className="rounded-full" />
           <p><strong>Name:</strong> {user.name || "N/A"}</p>
 
 
           <p><strong>Location:</strong> {user.profile?.location || "N/A"}</p>
           <p><strong>About:</strong> {user.profile?.about || "N/A"}</p>
-          <p><strong>Created At:</strong> {user.createdAt.toString() || "N/A"}</p>
         </div>
 
          {/* Profile Details */}
          {user.profile && (
-          <ProfileUpdateForm profile={{ ...user.profile, location: user.profile.location ?? undefined, about: user.profile.about ?? undefined }} />
+          <ProfileUpdateForm profile={{ ...user.profile, image: user.profile.image ?? "/images/kimperson.png", location: user.profile.location ?? undefined, about: user.profile.about ?? undefined }} />
         )}
 
         {/* Profile Details */}
@@ -60,7 +60,7 @@ export default async function ProfilePage() {
         {user.Company && (
           <div>
             <h2 className="text-lg font-semibold">Company Details</h2>
-            <p><strong>Company Name:</strong> {user.Company.name || "N/A"}</p>
+            <p><strong>Company Name:</strong> {user.profile?.name || "N/A"}</p>
             <Image src={user.Company.logo || "/default-company-logo.png"} alt="Company Logo" width={200} height={200} />
             <p><strong>Company Description:</strong> {user.Company.about || "N/A"}</p>
           </div>
