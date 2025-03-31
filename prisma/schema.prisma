@@ -91,7 +91,6 @@ model JobSeeker {
   name      String
   location  String
   resume    String
-  title     String?
   about     String
   profile   Profile? @relation(fields: [profileId], references: [id]) // Relation to Profile
   profileId String?  @unique   // Foreign key to Profile
