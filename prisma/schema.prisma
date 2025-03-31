@@ -51,19 +51,6 @@ enum UserType {
   JOB_SEEKER
 }
 
-model Profile {
-  id     String  @id @default(uuid())
-  userId String  @unique
-  name   String
-  image  String?
-  location String?
-  about  String?
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  telephone String?
-  subCategories  SubCategory[]  @relation("ProfileSubCategories") // Relation to SubCategory model
-  
-}
-
 model Company {
   id            String   @id @default(cuid())
   name          String
@@ -80,21 +67,41 @@ model Company {
   updatedAt     DateTime @updatedAt
 
 }
-
-model JobSeeker {
-  id            String   @id @default(cuid())
+model Profile {
+  id            String     @id @default(uuid())
+  userId        String     @unique
+  title         String
   name          String
-  location      String
-  resume        String
-  about         String
+  image         String?
+  location      String?
+  about         String?
+  telephone     String?
+  subCategories SubCategory[] @relation("ProfileSubCategories") // Relation to SubCategory model
 
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String   @unique
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobSeeker     JobSeeker?  @relation // Relation to JobSeeker
+  jobSeekerId   String?     @unique   // Foreign key to JobSeeker
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
- 
+
+model JobSeeker {
+  id        String   @id @default(uuid())
+  name      String
+  location  String
+  resume    String
+  title     String
+  about     String
+  profile   Profile? @relation(fields: [profileId], references: [id]) // Relation to Profile
+  profileId String?  @unique   // Foreign key to Profile
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
+  userId    String   @unique   // Foreign key to User
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Account {
   userId            String
   type              String
@@ -192,4 +199,17 @@ model SubCategory {
   @@index([categoryId])
   @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
 }
+
+model Availability {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  isAvailable Boolean @default(false)
+  startDate  DateTime?
+  endDate    DateTime?
+  startTime  String?  // Storing time as string (e.g., "14:30")
+  endTime    String?  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 

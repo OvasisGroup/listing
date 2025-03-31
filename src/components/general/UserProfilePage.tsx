@@ -1,62 +1,63 @@
+"use client";
 
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-import Image from "next/image";
-import { requireUser } from "@/utils/requireUser";
-import { Edit } from "lucide-react";
-// import Link from "next/link";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "../ui/button";
+export default function ProfileForm() {
+  const { data: session, update } = useSession();
+  const [formData, setFormData] = useState({
+    name: session?.user?.name || "",
+    bio: "",
+    image: session?.user?.image || "",
+  });
 
-interface iAppProps {
-    email: string;
-    name: string;
-    image: string;
-}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await fetch("/api/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-export default async function UserProfilePage({ email, name, image }: iAppProps) {
-    const session = await requireUser();
-
-    if (!session?.name) {
-        return <h1>You are not logged in</h1>;
+    if (response.ok) {
+      const updatedUser = await response.json();
+      update({ user: updatedUser });
+      alert("Profile updated successfully!");
+    } else {
+      alert("Failed to update profile");
     }
-    return (
-        <div className="flex flex-row gap-4 justify-between items-center">
-            <div>
-                <Dialog>
-                    <div className="relative">
-                        <div className="relative"><Image src={image} alt="profile image" width={100} height={100} className="rounded-full" /></div>
-                        <DialogTrigger className="absolute top-1 right-30"><Edit className="text-primary absolute top-1 right-0 border-2 bg-amber-50 border-white cursor-pointer" /></DialogTrigger>
-                    </div>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle></DialogTitle>
-                            <DialogDescription>
-                                <div className="flex flex-col gap-4 justify-center items-center">
-                                    <h1 className="text-center font-bold text-2xl pb-6">Update Profile Picture</h1>
-                                    <div className="mb-4 flex flex-col gap-2 items-center">
-                                        <Image src={image} alt={'Mr_Kim_Logo'} width={150} height={150} className='rounded-full border-4 border-dotted border-primary' />
-                                        <p className="font-bold cursor-pointer text-primary text-center">Click to Upload</p>
-                                    </div>
-                                    <p className="text-center">Must be an actual photo of you.
-                                        Logos, clip-art, group photos, and digitally-altered images are not allowed.</p>
-                                    <Button className="max-w-md text-white cursor-pointer">Upload</Button>
-                                </div>
-                            </DialogDescription>
-                        </DialogHeader>
-                    </DialogContent>
-                </Dialog>
-                <p><strong>Name:</strong> {name}</p>
-                <p><strong>Email:</strong> {email}</p>
-            </div>
+  };
 
-        </div>
-    )
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+      />
+      <textarea
+        name="bio"
+        placeholder="Bio"
+        value={formData.bio}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="text"
+        name="image"
+        placeholder="Image URL"
+        value={formData.image}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+      />
+      <button type="submit" className="p-2 bg-blue-600 text-white rounded">Update Profile</button>
+    </form>
+  );
 }

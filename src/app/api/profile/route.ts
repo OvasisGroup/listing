@@ -1,69 +1,27 @@
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../prisma/prisma";
-import { requireUser } from "@/utils/requireUser";
 
-export async function GET() {
-    try {
-        // Get the authenticated user's session
-        const session = await requireUser();
-        if (!session || !session.id) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
-        const userId = session.id;
-
-        // Fetch the user's profile
-        const profile = await prisma.profile.findUnique({
-            where: { userId },
-        });
-
-        if (!profile) {
-            return NextResponse.json({ error: "Profile not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ success: true, data: profile }, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching profile:", error);
-        return NextResponse.json({ error: "Failed to fetch profile" }, { status: 500 });
-    }
-}
 
 export async function PUT(req: Request) {
-    try {
-        // Get the authenticated user's session
-        const session = await requireUser();
-        if (!session || !session.id) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+  const session = await auth();
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-        const userId = session.id;
+  const { name, resumeUrl, companyName } = await req.json();
 
-        // Parse the request body
-        const body = await req.json();
-        const { name, image, location, about, telephone } = body;
+  try {
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: {
+        name,
+        JobSeeker: resumeUrl ? { update: { resume: resumeUrl } } : undefined,
+        Company: companyName ? { update: { name: companyName } } : undefined,
+      },
+    });
 
-        // Update the user's profile
-        const updatedProfile = await prisma.profile.update({
-            where: { userId },
-            data: {
-                name,
-                image,
-                location,
-                about,
-                telephone,
-            },
-        });
-
-        return NextResponse.json({ success: true, data: updatedProfile }, { status: 200 });
-    } catch (error) {
-        console.error("Error updating profile:", error);
-
-        // Handle cases where the profile does not exist
-        if ((error as { code?: string }).code === "P2025") {
-          
-            return NextResponse.json({ error: "Profile not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
-    }
+    return NextResponse.json({ message: "Profile updated" });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  }
 }
