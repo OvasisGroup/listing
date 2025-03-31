@@ -26,15 +26,16 @@ export default async function ProfilePage() {
 
   return (
     <div className="container mx-auto p-4">
-      <Image src="/images/splash.jpg" alt="Logo" width={2000} height={100} className="mb-4 w-full rounded-xl" />
-      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
+      <div className="bg-[url('/images/splash.jpg')] bg-cover bg-center bg-no-repeat py-15 rounded-xl mb-4">
+      <h1 className="text-2xl font-bold text-white pl-10">Profile</h1>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* User Details */}
         <div>
-          <h2 className="text-lg font-semibold">User Details</h2>
+          <Image src={user.image || "/default-user-image.png"} alt="User Image" width={100} height={100} className="rounded-full" />
           <p><strong>Name:</strong> {user.name || "N/A"}</p>
-          <p><strong>Email:</strong> {user.email || "N/A"}</p>
-          <Image src={user.image || "/default-user-image.png"} alt="User Image" width={200} height={200} />
+
+
           <p><strong>Location:</strong> {user.profile?.location || "N/A"}</p>
           <p><strong>About:</strong> {user.profile?.about || "N/A"}</p>
           <p><strong>Created At:</strong> {user.createdAt.toString() || "N/A"}</p>
