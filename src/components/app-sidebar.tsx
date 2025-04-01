@@ -76,6 +76,13 @@ const data = {
       url: "/admin/jobs",
       icon: LayoutDashboard,
     },
+
+    {
+      title: "Legal",
+      url: "/admin/legal",
+      icon: LayoutDashboard,
+    },
+
     {
       title: "CMS",
       url: "/admin/cms",
