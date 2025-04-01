@@ -48,7 +48,7 @@ export default function EditLegalPage() {
 
         setIsSaving(true); // Set saving state
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/legal/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
