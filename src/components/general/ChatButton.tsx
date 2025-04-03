@@ -18,6 +18,7 @@ export default function ChatButton() {
           </div>
           <div className="mt-3">
             <p className="text-sm text-gray-600">How can I help you?</p>
+           
           </div>
         </div>
       )}
