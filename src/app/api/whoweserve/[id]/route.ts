@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { prisma } from "../../../../prisma/prisma";
+import { prisma } from "../../../../../prisma/prisma";
+
 
 export async function POST(req: Request) {
     try {
