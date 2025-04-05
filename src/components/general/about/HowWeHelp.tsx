@@ -43,12 +43,17 @@ export default function HowWeHelp() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="p-6 bg-green-100 mt-4 rounded-xl">
+
+    <div className="pb-10"> 
+        <div className="container mx-auto pb-6">
+        <h2 className="text-2xl md:text-4xl font-bold text-primary mx-auto text-center">Who We Serve</h2>
+        </div>
+    <div className="grid md:grid-cols-2 gap-12">
       {aboutEntries.length === 0 ? (
         <p>No entries found.</p>
       ) : (
         aboutEntries.map((entry) => (
-          <div key={entry.id} className="grid md:grid-cols-2 md:gap-12 gap-4 justify-center items-center mb-4 border-b-1 pb-4">
+          <div key={entry.id} className="">
             <Image
               src={entry.image}
               alt={entry.title}
@@ -56,12 +61,14 @@ export default function HowWeHelp() {
               height={500}
               className="rounded-lg w-full"/>
               <div>
-              <h2 className="text-2xl md:text-4xl font-bold text-primary">{entry.title}</h2>
+              <h2 className="text-2xl mt-4 font-bold text-primary">{entry.title}</h2>
               <p>{entry.body}</p>
               </div>
-          </div>
+              </div>
+
         ))
       )}
+    </div>
     </div>
   );
 }

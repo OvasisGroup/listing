@@ -41,14 +41,14 @@ export default function HowToDisplay() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="py-10 border-b-1 border-accent-foreground">
+    <div className="py-10 ">
       {aboutEntries.length === 0 ? (
         <p>No entries found.</p>
       ) : (
         aboutEntries.map((entry) => (
-          <div key={entry.id} className="grid md:grid-cols-2 gap-12">
+          <div key={entry.id} className="flex flex-col justify-center items-center max-w-[70%] mx-auto gap-4">
             <h2 className="text-2xl md:text-4xl font-bold text-primary">{entry.title}</h2>
-            <p>{entry.body}</p>
+            <p className="text-center">{entry.body}</p>
           </div>
         ))
       )}
