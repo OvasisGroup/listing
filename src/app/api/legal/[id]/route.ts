@@ -1,76 +1,58 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 
-// Define a validation schema for updating legal documents
-const legalDocumentSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  body: z.string().min(1, "Body is required"),
-});
-
-// ✅ GET: Fetch a specific legal document by ID
-export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params; // ✅ Await params before accessing
-
-  if (!id || typeof id !== "string") {
-    return NextResponse.json({ error: "Invalid document ID" }, { status: 400 });
-  }
-
-  try {
-    const legalDocument = await prisma.legal.findUnique({ where: { id } });
-
-    if (!legalDocument) {
-      return NextResponse.json({ error: "Legal document not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(legalDocument);
-  } catch (error) {
-    console.error("Error fetching legal document:", error);
-    return NextResponse.json({ error: "Failed to fetch legal document" }, { status: 500 });
-  }
+// Define the type for context
+interface Context {
+    params: Promise<{ id: string }>; // 👈 `params` must be awaited
 }
 
-// ✅ PUT: Update a specific legal document by ID
-export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params; // ✅ Await params before accessing
+export async function GET(req: NextRequest, context: Context) {
+    try {
+        const { id } = await context.params; // ✅ Await `params`
+        
+        if (!id) {
+            return NextResponse.json({ error: "Category ID is required" }, { status: 400 });
+        }
 
-  if (!id || typeof id !== "string") {
-    return NextResponse.json({ error: "Invalid document ID" }, { status: 400 });
-  }
+        // Fetch the category by ID
+        const legal = await prisma.legal.findUnique({
+            where: { id },
+        });
 
-  try {
-    const jsonData = await req.json();
-    const parsedData = legalDocumentSchema.safeParse(jsonData);
+        if (!legal) {
+            return NextResponse.json({ error: "Category not found" }, { status: 404 });
+        }
 
-    if (!parsedData.success) {
-      return NextResponse.json({ error: parsedData.error.flatten() }, { status: 400 });
+        return NextResponse.json({ success: true, data: legal }, { status: 200 });
+    } catch (error) {
+        console.error("Error fetching category:", error);
+        return NextResponse.json({ error: "Failed to fetch category" }, { status: 500 });
     }
-
-    const updatedLegalDocument = await prisma.legal.update({
-      where: { id },
-      data: parsedData.data,
-    });
-
-    return NextResponse.json(updatedLegalDocument);
-  } catch (error) {
-    console.error("Error updating legal document:", error);
-    return NextResponse.json({ error: "Failed to update legal document" }, { status: 500 });
-  }
 }
 
-// ✅ DELETE: Delete a specific legal document by ID
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params; // ✅ Await params before accessing
+export async function PATCH(req: NextRequest, context: Context) {
+    try {
+        const { id } = await context.params; // ✅ Await `params`
 
-  if (!id || typeof id !== "string") {
-    return NextResponse.json({ error: "Invalid document ID" }, { status: 400 });
-  }
+        if (!id) {
+            return NextResponse.json({ error: "Legal ID is required" }, { status: 400 });
+        }
 
-  try {
-    await prisma.legal.delete({ where: { id } });
-    return new Response(null, { status: 204 }); // ✅ Returns a No Content response
-  } catch (error) {
-    console.error("Error deleting legal document:", error);
-    return NextResponse.json({ error: "Failed to delete legal document" }, { status: 500 });
-  }
+        const requestBody = await req.json();
+        const { title, body } = requestBody;
+
+        // Update the category
+        const updatedLegal = await prisma.legal.update({
+            where: { id },
+            data: {
+                title: title || undefined,
+                body: body || undefined,
+            },
+        });
+
+        return NextResponse.json({ success: true, data: updatedLegal }, { status: 200 });
+    } catch (error) {
+        console.error("Error updating category:", error);
+        return NextResponse.json({ error: "Failed to update category" }, { status: 500 });
+    }
 }
