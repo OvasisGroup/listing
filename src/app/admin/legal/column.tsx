@@ -102,7 +102,7 @@ export const columns: ColumnDef<Legal>[] = [
 // Handlers
 const handleEdit = (item: Legal) => {
     console.log("Edit", item);
-    window.location.href = `/admin/legal/${item.id}`;
+    window.location.href = `/admin/legal/edit/${item.id}`;
   };
   
   const handleDelete = (id: string) => {

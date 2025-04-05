@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { DataTable } from "./data-table"
 import { columns } from "./column";
 import { motion } from 'framer-motion';
+import AboutForm from "@/components/general/about/PostAbout";
+import HowCanWeHelpForm from "@/components/general/howtohelp/PostHowToHelp";
+import CreateHowWeHelpForm from "@/components/forms/about/CreateWhoWeAre";
 
 type Categories = {
     id: string;
@@ -50,6 +53,11 @@ export default function UsersPage() {
       <DataTable columns={columns} data={data} />
         )}
     </div>
+
+    <AboutForm/>
+    <HowCanWeHelpForm/>
+    <br></br>
+    <CreateHowWeHelpForm/>
     </>
   )
 }

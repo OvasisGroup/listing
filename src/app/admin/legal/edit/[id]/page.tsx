@@ -28,6 +28,7 @@ export default function EditLegalPage() {
                 }
                 const data = await res.json();
                 setLegal(data.data);
+                console.log(data.data);
             } catch (error) {
                 console.error("Error fetching legal:", error);
                 if (error instanceof Error) {
@@ -116,9 +117,8 @@ export default function EditLegalPage() {
                     <Button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className={`inline-flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-darkgreen focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                            isSaving ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`inline-flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-darkgreen focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isSaving ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                     >
                         {isSaving ? "Saving..." : "Save"}
                     </Button>
