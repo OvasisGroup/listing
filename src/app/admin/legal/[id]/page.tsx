@@ -1,5 +1,6 @@
 "use client";
 
+import Tiptap from "@/components/Tiptap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +11,13 @@ type Legal = {
     id: string;
     title: string;
     body: string;
+};
+
+// Utility function to strip HTML tags
+const stripHtmlTags = (html: string) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
 };
 
 export default function EditLegalPage() {
@@ -27,7 +35,10 @@ export default function EditLegalPage() {
                     throw new Error("Failed to fetch legal");
                 }
                 const data = await res.json();
-                setLegal(data.data);
+                setLegal({
+                    ...data,
+                    body: stripHtmlTags(data.body), // Strip HTML tags from the body
+                });
                 console.log(data.data);
             } catch (error) {
                 console.error("Error fetching legal:", error);
@@ -102,14 +113,16 @@ export default function EditLegalPage() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                 </div>
+                <Tiptap/>
                 <div>
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Description
                     </label>
+                    
                     <Textarea
                         id="description"
-                        value={legal.body}
-                        onChange={(e) => setLegal({ ...legal, body: e.target.value })}
+                        value={stripHtmlTags(legal.body)}
+                        onChange={(e) => setLegal({ ...legal, body: stripHtmlTags(e.target.value) })}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                 </div>
