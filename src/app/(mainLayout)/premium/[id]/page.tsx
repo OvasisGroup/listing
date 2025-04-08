@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowBigLeftIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,8 +12,10 @@ import { useEffect, useState } from "react";
 
 type Legal = {
     id: string;
-    title: string;
-    body: string;
+    name: string;
+    description: string;
+    icon: string;
+    image: string;
 };
 
 export default function CategoryDetail() {
@@ -24,14 +27,14 @@ export default function CategoryDetail() {
     useEffect(() => {
         const fetchCategory = async () => {
             try {
-                const res = await fetch(`/api/legal/${id}`);
+                const res = await fetch(`/api/premium/${id}`);
                 if (!res.ok) {
-                    throw new Error("Failed to fetch category");
+                    throw new Error("Failed to fetch premium");
                 }
                 const data = await res.json();
                 setCategory(data.data);
             } catch (error) {
-                console.error("Error fetching legal:", error);
+                console.error("Error fetching premium:", error);
                 if (error instanceof Error) {
                     setError(error.message);
                 } else {
@@ -68,15 +71,17 @@ export default function CategoryDetail() {
 
     return (
         <div className="container mx-auto p-4 md:px-0">
-            <Link href={`/legal`}>
-                <Button className="text-white my-6"><ArrowBigLeftIcon/> Back to Legal</Button>
+            <Link href={`/premium`}>
+                <Button className="text-white my-6"><ArrowBigLeftIcon/> Back to Premium</Button>
                 </Link>
-            <h1 className="text-3xl text-primary font-bold">{category.title}</h1>
+
+                <Image src={category.image} alt="category image" width={300} height={300} className="rounded-lg my-4 w-full" />
+            <h1 className="text-3xl text-primary font-bold">{category.name}</h1>
            
             <div className="">
                 
                 <div className="">
-                    <p className="text-justify text-sm">{category.body}</p>                 
+                    <p className="text-justify text-sm">{category.description}</p>                 
                 </div>
             </div>
         </div>

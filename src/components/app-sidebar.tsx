@@ -84,6 +84,12 @@ const data = {
     },
 
     {
+      title: "Premium",
+      url: "/admin/premium",
+      icon: LayoutDashboard,
+    },
+
+    {
       title: "CMS",
       url: "/admin/cms",
       icon: LayoutDashboard,

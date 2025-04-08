@@ -15,7 +15,7 @@ export default function About() {
             <p>Looking for Open Job Opportunities? Find Jobs</p>
             </div>
             <div>
-              <Button className='rounded-sm font-bold'>Post A Job</Button>
+              <Button className='rounded-sm font-bold text-white'>Post A Job</Button>
             </div>
         </div>
 

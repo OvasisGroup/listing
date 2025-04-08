@@ -258,4 +258,15 @@ model Whoweserve {
   updatedAt     DateTime @updatedAt
 }
 
+// Category model for main categories
+model Premium {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  description   String?
+  image         String?
+  icon          String?
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
 
