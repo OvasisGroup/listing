@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 
 type About = {
@@ -37,7 +38,15 @@ export default function AboutPageDisplay() {
     fetchAbout();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="grid md:grid-cols-2 gap-12">
+        <Skeleton className="w-full h-40 rounded" />
+        <Skeleton className="w-full h-40 rounded" />
+        </div>
+    );
+  }
+     
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (

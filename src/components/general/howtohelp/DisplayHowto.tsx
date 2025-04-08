@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 
 type About = {
@@ -37,7 +38,16 @@ export default function HowToDisplay() {
     fetchAbout();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) 
+  {
+    return (
+      <div className="">
+        <div className="py-4">
+        <Skeleton className="w-full h-50 rounded" />
+        </div>
+      </div>
+    )
+  }
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (

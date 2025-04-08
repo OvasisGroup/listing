@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -39,7 +40,32 @@ export default function HowWeHelp() {
     fetchAbout();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="space-y-4 grid md:grid-cols-2 gap-12">
+        <div className="">
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-10 w-60 my-2" />
+        <Skeleton className="h-10 w-full" />
+        </div>
+        <div className="">
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-10 w-60 my-2" />
+        <Skeleton className="h-10 w-full" />
+        </div>
+        <div className="">
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-10 w-60 my-2" />
+        <Skeleton className="h-10 w-full" />
+        </div>
+        <div className="">
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-10 w-60 my-2" />
+        <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    )
+  } ;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (

@@ -2,6 +2,7 @@
 
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowBigLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -49,7 +50,9 @@ export default function CategoryDetail() {
     
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>
+            <Skeleton className="w-[100px] h-[20px] rounded-full" />
+        </div>;
     }
 
     if (error) {
@@ -70,7 +73,7 @@ export default function CategoryDetail() {
             <div className="">
                 
                 <div className="">
-                    <p className="text-justify">{category.body}</p>                 
+                    <p className="text-justify text-sm">{category.body}</p>                 
                 </div>
             </div>
         </div>
