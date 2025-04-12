@@ -34,31 +34,31 @@ export default function WhoWeAre() {
           <div>
             <Image src={'/images/experience.png'} alt={'Mr_Kim_Logo'} width={80} height={80} className='pb-2'/>
             <h1 className='font-bold text-primary text-2xl pb-2'>Expertise</h1>
-            <p>Our network of professional service providers comprises experienced professionals who are skilled in a wide range of services</p>
+            <p className='text-black'>Our network of professional service providers comprises experienced professionals who are skilled in a wide range of services</p>
           </div>
 
           <div>
             <Image src={'/images/thumb-ups.png'} alt={'Mr_Kim_Logo'} width={80} height={80} className='pb-2'/>
             <h1 className='font-bold text-primary text-2xl pb-2'>Convenience</h1>
-            <p>With just a few taps, you can book services and schedule appointments with one of our outstanding and experienced professional service providers of your chose</p>
+            <p className='text-black'>With just a few taps, you can book services and schedule appointments with one of our outstanding and experienced professional service providers of your chose</p>
           </div>
 
           <div>
             <Image src={'/images/transparency.png'} alt={'Mr_Kim_Logo'} width={80} height={80} className='pb-2'/>
             <h1 className='font-bold text-primary text-2xl pb-2'>Transparency </h1>
-            <p>We believe in clear communication and fair pricing. No hidden costs or surprises.</p>
+            <p className='text-black'>We believe in clear communication and fair pricing. No hidden costs or surprises.</p>
           </div>
 
           <div>
             <Image src={'/images/quality-service.png'} alt={'Mr_Kim_Logo'} width={80} height={80} className='pb-2'/>
             <h1 className='font-bold text-primary text-2xl pb-2'>Quality</h1>
-            <p>We are committed to delivering top-notch service. Our professional service providers take pride in their work and pay attention to every detail</p>
+            <p className='text-black'>We are committed to delivering top-notch service. Our professional service providers take pride in their work and pay attention to every detail</p>
           </div>
 
           <div>
             <Image src={'/images/quality.png'} alt={'Mr_Kim_Logo'} width={80} height={80} className='pb-2'/>
             <h1 className='font-bold text-primary text-2xl pb-2'>Reliability</h1>
-            <p>Count on us to match you with reliable professional service provider who will show up on time and complete the job to your satisfaction
+            <p className='text-black'>Count on us to match you with reliable professional service provider who will show up on time and complete the job to your satisfaction
             </p>
           </div>
 
