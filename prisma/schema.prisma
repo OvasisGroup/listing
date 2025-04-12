@@ -25,6 +25,9 @@ model User {
 
   profile       Profile?
   userType      UserType?
+  listings      Listing[] // ✅ One-to-many: one user can have multiple listings
+
+  otps       OTP[]    // ✅ One-to-many: one user can have multiple OTPs
 
   onboardingCompleted Boolean @default(false)
   lastLogin DateTime @default(now()) // Add this field
@@ -190,6 +193,8 @@ model Category {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  listings      Listing[] // ✅ One-to-many: one category can have multiple listings
+
   @@index([slug])
 }
 
@@ -203,6 +208,8 @@ model SubCategory {
 
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   profiles    Profile[]  @relation("ProfileSubCategories") 
+
+  listings    Listing[] // ✅ One-to-many: one subcategory can have multiple listings
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -268,5 +275,39 @@ model Premium {
 
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+}
+
+model OTP {
+  id        String   @id @default(cuid())
+  phone     String   @unique // Make phone unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Listing {
+  id        String   @id @default(cuid())
+  title     String
+  description String
+  budget     Float
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  subCategoryId String
+  subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+  location   String
+  status     String   @default("active") // e.g., "active", "completed", "cancelled"
+  isFeatured Boolean  @default(false)
+  isPremium  Boolean  @default(false)
+
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 

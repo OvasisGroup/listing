@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
+import Tiptap from "@/components/Tiptap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+ 
 type Legal = {
     id: string;
     title: string;
@@ -28,7 +29,6 @@ export default function EditLegalPage() {
                 }
                 const data = await res.json();
                 setLegal(data.data);
-                console.log(data.data);
             } catch (error) {
                 console.error("Error fetching legal:", error);
                 if (error instanceof Error) {
@@ -78,6 +78,20 @@ export default function EditLegalPage() {
         }
     };
 
+    const handleEditorUpdate = (content: string) => {
+        setLegal((prev) => {
+            if (prev === null) return null; // if prev is null, we return null
+    
+            // Ensure that id is always a string, fallback to an empty string if undefined
+            return {
+                ...prev,
+                body: content,
+                id: prev.id ?? '', // If id is undefined, fallback to an empty string
+            };
+        });
+    };
+    
+
     if (error) {
         return <div className="text-red-500">Error: {error}</div>;
     }
@@ -102,7 +116,11 @@ export default function EditLegalPage() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                 </div>
-                <div>
+
+                {/* Pass legal.body to Tiptap editor and update state */}
+                <Tiptap content={legal.body} onUpdate={handleEditorUpdate} />
+
+                {/* <div>
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Description
                     </label>
@@ -112,13 +130,13 @@ export default function EditLegalPage() {
                         onChange={(e) => setLegal({ ...legal, body: e.target.value })}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
-                </div>
+                </div> */}
+
                 <div className="mt-4">
                     <Button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className={`inline-flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-darkgreen focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isSaving ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                        className={`inline-flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-darkgreen focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isSaving ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
                         {isSaving ? "Saving..." : "Save"}
                     </Button>
