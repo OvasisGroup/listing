@@ -13,7 +13,7 @@ export default function Footer() {
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm '><Link href='/about'>About Us</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/whoweare'>Who We Are</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/corevalues'>Core Values</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Corporate Responsibility</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/corporate_responsibility'>Corporate Responsibility</Link></li>
                         </ul>
                     </div>
                     <div>
