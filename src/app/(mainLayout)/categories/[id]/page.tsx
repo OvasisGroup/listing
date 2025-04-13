@@ -23,37 +23,55 @@ type Category = {
     subCategories: SubCategory[];
 };
 
+type Pagination = {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+};
+
 export default function CategoryDetail() {
     const { id } = useParams();
     const [category, setCategory] = useState<Category | null>(null);
+    const [pagination, setPagination] = useState<Pagination | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Fetch category with pagination
+    const fetchCategory = async (page: number) => {
+        try {
+            const res = await fetch(`/api/categories/${id}?page=${page}`);
+            if (!res.ok) {
+                throw new Error("Failed to fetch category");
+            }
+            const data = await res.json();
+            setCategory(data.data);
+            setPagination(data.pagination);
+        } catch (error) {
+            console.error("Error fetching category:", error);
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError("An unknown error occurred");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const res = await fetch(`/api/categories/${id}`);
-                if (!res.ok) {
-                    throw new Error("Failed to fetch category");
-                }
-                const data = await res.json();
-                setCategory(data.data);
-            } catch (error) {
-                console.error("Error fetching category:", error);
-                if (error instanceof Error) {
-                    setError(error.message);
-                } else {
-                    setError("An unknown error occurred");
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
         if (id) {
-            fetchCategory();
+            fetchCategory(currentPage);
         }
-    }, [id]);
+    }, [id, currentPage]);
+
+    // Handling pagination change
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= (pagination?.totalPages || 1)) {
+            setCurrentPage(newPage);
+        }
+    };
 
     useEffect(() => {
         const handleContextMenu = (event: MouseEvent) => event.preventDefault();
@@ -133,8 +151,21 @@ export default function CategoryDetail() {
                             <p className="text-gray-500">No subcategories available.</p>
                         )}
                     </div>
+
+                    <div className="border-b-1 border-primary mt-4"></div>
+
+                    {/* Pagination Controls */}
+                    <div className="mt-4 flex justify-between items-center">
+                        <div>
+                        <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} className=" bg-secondary text-black mr-2">Previous</Button>
+                        <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage >= (pagination?.totalPages || 1)} className="bg-secondary text-black mr-2">Next</Button>
+                        </div>
+                        <span><small className="font-bold">Showing Page {currentPage} of {pagination?.totalPages}</small></span>
+                        
+                    </div>
                 </div>
                 <div className="rounded-2xl">
+                    <div className="md:pl-8"><h2 className="font-bold text-primary text-2xl pb-4">Major Categories</h2></div>
                     <MainCategoriesSidebar />
                 </div>
             </div>
