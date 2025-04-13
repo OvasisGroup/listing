@@ -61,15 +61,15 @@ const Home = () => {
   return (
     <div className="">
       <Image src={'/images/law-header.jpg'} alt={'law'} width={10000} height={100} className='w-full mt-4 rounded-2xl' />
-      <div className='flex justify-between items-center p-4'>
-        <div>
-          <h1 className='text-4xl font-bold text-primary'>Legal</h1>
-          <p>Looking for Open Job Opportunities? Find Jobs</p>
-        </div>
-        <div>
-          <Button className='rounded-sm font-bold text-white'>Post A Job</Button>
-        </div>
-      </div>
+      <div className='flex md:flex-row flex-col md:justify-between md:items-center  py-6 border-b-1 border-primary'>
+              <div>
+                <h1 className='text-4xl font-bold text-primary'>Legal</h1>
+                <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
+              </div>
+              <div className='mt-4'>
+                <Link href={"/post-job"}><Button className='rounded-sm font-bold text-white'>Post A Service Request</Button></Link>
+              </div>
+            </div>
 
 
       <div>

@@ -108,8 +108,15 @@ export default function CategoryDetail() {
 
     return (
         <div className="container mx-auto p-4 md:px-0">
-            <h1 className="text-3xl text-primary font-bold">All Categories</h1>
-            <p className="pb-6">Looking for Open Job Opportunities? <span className="text-primary font-bold">Find Jobs</span></p>
+            <div className='flex md:flex-row flex-col md:justify-between md:items-center  py-6 border-b-1 border-primary mb-8'>
+                <div>
+                    <h1 className='text-4xl font-bold text-primary'>All Categories</h1>
+                    <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
+                </div>
+                <div className='mt-4'>
+                    <Link href={"/post-job"}><Button className='rounded-sm font-bold text-white'>Post A Service Request</Button></Link>
+                </div>
+            </div>
             <form className="flex gap-2 mb-6"><Input placeholder="Search for categories" /><Button className="text-white">Search</Button></form>
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="md:col-span-2 col-span-1 bg-grey">
@@ -134,7 +141,7 @@ export default function CategoryDetail() {
                                                 <p>Do you want to post a job with <span className="font-bold text-primary">{sub.name}?</span></p>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                            <AlertDialogCancel>     
+                                                <AlertDialogCancel>
                                                     Cancel
                                                 </AlertDialogCancel>
                                                 <Button asChild className="text-white">
@@ -157,11 +164,11 @@ export default function CategoryDetail() {
                     {/* Pagination Controls */}
                     <div className="mt-4 flex justify-between items-center">
                         <div>
-                        <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} className=" bg-secondary text-black mr-2">Previous</Button>
-                        <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage >= (pagination?.totalPages || 1)} className="bg-secondary text-black mr-2">Next</Button>
+                            <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} className=" bg-secondary text-black mr-2">Previous</Button>
+                            <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage >= (pagination?.totalPages || 1)} className="bg-secondary text-black mr-2">Next</Button>
                         </div>
                         <span><small className="font-bold">Showing Page {currentPage} of {pagination?.totalPages}</small></span>
-                        
+
                     </div>
                 </div>
                 <div className="rounded-2xl">
