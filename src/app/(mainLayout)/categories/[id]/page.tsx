@@ -108,7 +108,7 @@ export default function CategoryDetail() {
 
     return (
         <div className="container mx-auto p-4 md:px-0">
-            <div className='flex md:flex-row flex-col md:justify-between md:items-center  py-6 border-b-1 border-primary mb-8'>
+            <div className='flex md:flex-row flex-col md:justify-between md:items-center  py-6 mb-8'>
                 <div>
                     <h1 className='text-4xl font-bold text-primary'>All Categories</h1>
                     <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
