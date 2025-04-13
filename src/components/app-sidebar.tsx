@@ -90,6 +90,12 @@ const data = {
     },
 
     {
+      title: "TVETS",
+      url: "/admin/tvets",
+      icon: LayoutDashboard,
+    },
+
+    {
       title: "CMS",
       url: "/admin/cms",
       icon: LayoutDashboard,
