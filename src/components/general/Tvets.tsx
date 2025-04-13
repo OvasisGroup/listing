@@ -15,8 +15,8 @@ export default function TvetsTable() {
   const [tvets, setTvets] = useState<Tvet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [visibleCount, setVisibleCount] = useState(10);
+  const step = 10; // how many to show or hide each click
 
   useEffect(() => {
     const fetchTvets = async () => {
@@ -35,15 +35,12 @@ export default function TvetsTable() {
     fetchTvets();
   }, []);
 
-  const totalPages = Math.ceil(tvets.length / pageSize);
-  const paginatedData = tvets.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-primary">TVET Institutions</h1>
+      <h1 className="text-2xl font-bold">TVET Institutions</h1>
       <Table>
         <TableHeader>
           <TableRow>
@@ -51,7 +48,7 @@ export default function TvetsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginatedData.map((tvet) => (
+          {tvets.slice(0, visibleCount).map((tvet) => (
             <TableRow key={tvet.id}>
               <TableCell>{tvet.name}</TableCell>
             </TableRow>
@@ -59,28 +56,26 @@ export default function TvetsTable() {
         </TableBody>
       </Table>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-between items-center pt-4">
-        <Button
-          variant="outline"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </Button>
+      {visibleCount < tvets.length && (
+        <div className="flex justify-center pt-4 w-full ">
+          <Button onClick={() => setVisibleCount((prev) => prev + 10)} className="px-4 py-2 rounded-md bg-primary text-white w-full">
+            Show More
+          </Button>
+        </div>
+      )}
 
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+      {visibleCount > step && (
+          <Button
+            variant="outline"
+            onClick={() => setVisibleCount((prev) => Math.max(prev - step, step))}
+          >
+            Show Less
+          </Button>
+        )}
 
-        <Button
-          variant="outline"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
-      </div>
+      {visibleCount >= tvets.length && tvets.length > 0 && (
+        <div className="text-center text-gray-500 pt-4">No more records to show.</div>
+      )}
     </div>
   );
 }
