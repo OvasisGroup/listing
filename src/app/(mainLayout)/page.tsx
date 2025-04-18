@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import HomePageCategories from "@/components/general/HomePageCategories";
 import AdvertSection from "@/components/general/AdvertSection";
-import LocationComponent from "@/components/general/UserCurrentLocation";
+import LocationFetcher from "@/components/general/Location";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
     <div className='bg-primary md:mt-10 md:rounded-3xl rounded-xl'>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-4 justify-center items-start md:p-20">
-          <small className="text-yellow-300 text-sm font-bold bg-green-900 px-4 py-2 rounded-3xl self-center md:self-start mt-10 md:mt-0"><LocationComponent/></small>
+          <small className="text-yellow-300 text-sm font-bold bg-green-900 px-4 py-2 rounded-3xl self-center md:self-start mt-10 md:mt-0"><LocationFetcher/></small>
           <motion.h1
   initial={{ opacity: 0, y: 50 }}
   animate={{ opacity: 1, y: 0 }}
@@ -21,6 +21,7 @@ export default function Home() {
 >
   Get the right local Pro in your area for any project.
 </motion.h1>
+
           <HomePageSearch/>
         </div>
         <div>
