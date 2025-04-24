@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import 'mapbox-gl/dist/mapbox-gl.css';
 
 @import "uploadthing/tw/v4";
 @source "../node_modules/@uploadthing/react/dist"; /** <-- depends on your project structure */
@@ -123,4 +124,9 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.custom-marker {
+  background-size: cover;
+  border-radius: 50%;
 }

@@ -50,7 +50,7 @@ export default function AboutPageDisplay() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="py-10 border-b-1 border-accent-foreground">
+    <div className="py-10 border-b-1 border-accent-foreground"> 
       {aboutEntries.length === 0 ? (
         <p>No about entries found.</p>
       ) : (

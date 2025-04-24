@@ -7,6 +7,7 @@ import { ArrowBigLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import DOMPurify from 'dompurify';
 
 
 type Legal = {
@@ -76,7 +77,9 @@ export default function CategoryDetail() {
             <div className="">
                 
                 <div className="">
-                    <p className="text-justify text-sm">{category.body}</p>                 
+                    <p className="text-justify text-sm" dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(category.body),
+        }}></p>                 
                 </div>
             </div>
         </div>

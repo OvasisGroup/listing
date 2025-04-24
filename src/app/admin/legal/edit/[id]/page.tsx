@@ -1,6 +1,7 @@
 'use client';
 
-import Tiptap from "@/components/Tiptap";
+
+import RichTextEditor from "@/components/RichTextEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import { Textarea } from "@/components/ui/textarea";
@@ -78,18 +79,18 @@ export default function EditLegalPage() {
         }
     };
 
-    const handleEditorUpdate = (content: string) => {
-        setLegal((prev) => {
-            if (prev === null) return null; // if prev is null, we return null
+    // const handleEditorUpdate = (content: string) => {
+    //     setLegal((prev) => {
+    //         if (prev === null) return null; // if prev is null, we return null
     
-            // Ensure that id is always a string, fallback to an empty string if undefined
-            return {
-                ...prev,
-                body: content,
-                id: prev.id ?? '', // If id is undefined, fallback to an empty string
-            };
-        });
-    };
+    //         // Ensure that id is always a string, fallback to an empty string if undefined
+    //         return {
+    //             ...prev,
+    //             body: content,
+    //             id: prev.id ?? '', // If id is undefined, fallback to an empty string
+    //         };
+    //     });
+    // };
     
 
     if (error) {
@@ -118,7 +119,7 @@ export default function EditLegalPage() {
                 </div>
 
                 {/* Pass legal.body to Tiptap editor and update state */}
-                <Tiptap content={legal.body} onUpdate={handleEditorUpdate} />
+                <RichTextEditor onChange={(content) => setLegal({ ...legal, body: content })} initialContent={legal.body} />
 
                 {/* <div>
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">

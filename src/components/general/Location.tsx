@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
+import { Map } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export default function LocationFetcher() {
   const [address, setAddress] = useState<string>('');
   const [error, setError] = useState<string>('');
   const token = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-  console.log('Mapbox Token:', token);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -44,7 +42,7 @@ export default function LocationFetcher() {
 
   return (
     <div>
-      {address && <p>{address}</p>}
+      {address && <p className='text-sm'><Map className='inline-block pr-1'/> {address}</p>}
       {error && <p>{error}</p>}
       {!address && !error && <p>Fetching your location...</p>}
     </div>

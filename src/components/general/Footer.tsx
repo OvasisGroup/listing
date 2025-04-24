@@ -21,7 +21,7 @@ export default function Footer() {
                         <ul>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm '><Link href='/howitworks'>How it Works</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Get the App</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Why choose Mr. Kim</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/whychooseus'>Why choose Mr. Kim</Link></li>
                         </ul>
                     </div>
                     <div>

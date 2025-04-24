@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import DOMPurify from 'dompurify';
 
 
 type Legal = {
@@ -81,7 +82,7 @@ export default function CategoryDetail() {
             <div className="">
                 
                 <div className="">
-                    <p className="text-justify text-sm">{category.description}</p>                 
+                    <p className="text-justify text-sm" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(category.description) }}></p>                 
                 </div>
             </div>
         </div>
