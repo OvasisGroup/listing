@@ -1,3 +1,4 @@
+
 import Link from 'next/link'
 import React from 'react'
 import { buttonVariants } from '../ui/button'
@@ -10,6 +11,9 @@ import MobileNav from './MobileNav'
 
 export async function Navbar() {
     const session = await auth();
+
+    
+
     return (
         <div className='border-b-1'>
             <nav className='container mx-auto flex items-center justify-between py-5 px-4 md:px-6 lg:px-8' >

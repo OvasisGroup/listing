@@ -13,58 +13,38 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import { useEffect, useState } from "react"
+// import { Skeleton } from "../ui/skeleton"
+import Image from "next/image"
+// import { ArrowRight } from 'lucide-react';
 
-const components: { title: string; href: string; description: string }[] = [
-    {
-        title: "Automotive Services",
-        href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-        title: "Residential services",
-        href: "/docs/primitives/hover-card",
-        description:
-            "For sighted users to preview content available behind a link.",
-    },
-    {
-        title: "Commercial Services",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-        title: "Tuktuk Services",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Handyman Services",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Digital Services",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-    {
-        title: "Cleaning Services",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Other Services",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-]
+type Post = {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+  }
+
 
 export function NavigationMenuDemo() {
+
+    const [data, setData] = useState<Post[]>([]);
+        
+          useEffect(() => {
+            const fetchData = async () => {
+              try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`); // Replace with your API
+                const json = await res.json();
+                setData(json);
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+            };
+        
+            fetchData();
+          }, []);
+
+
     return (
         <NavigationMenu>
             <NavigationMenuList>
@@ -89,14 +69,14 @@ export function NavigationMenuDemo() {
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem href="/docs" title="About">
-                                Re-usable components built using Radix UI and Tailwind CSS.
+                            <ListItem href="/about" title="About">
+                                     Meet Mr.KIM, your source for trusted local professional service providers in your area.
                             </ListItem>
-                            <ListItem href="/docs/installation" title="Talent">
-                                How to install dependencies and structure your app.
+                            <ListItem href="/talent" title="Talent">
+                                Discover the best local talent for your needs.
                             </ListItem>
-                            <ListItem href="/docs/primitives/typography" title="Premium">
-                                Styles for headings, paragraphs, lists...etc
+                            <ListItem href="/premium" title="Premium">
+                                Enjoy the benefits of premium services.
                             </ListItem>
                         </ul>
                     </NavigationMenuContent>
@@ -105,16 +85,19 @@ export function NavigationMenuDemo() {
                     <NavigationMenuTrigger>Services</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {components.map((component) => (
+                            {data.map((category) => (
+                                
                                 <ListItem
-                                    key={component.title}
-                                    title={component.title}
-                                    href={component.href}
-                                >
-                                    {component.description}
+                                    key={category.name}
+                                    title={category.name}
+                                    href={`/categories/${category.id}`}
+                                    className="font-bold"
+                                ><Image src={category.icon} alt={category.name} width={40} height={50} className='object-contain my-4' />
+                      <h5 className="">{category.description}</h5>
                                 </ListItem>
                             ))}
                         </ul>
+                       
                     </NavigationMenuContent>
                 </NavigationMenuItem>
             </NavigationMenuList>
