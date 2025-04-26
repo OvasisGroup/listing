@@ -4,6 +4,7 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../../../prisma/prisma";
 
+
 export async function POST(req: Request) {
     try {
         const formData = await req.formData();
@@ -86,6 +87,7 @@ export async function PATCH(req: Request) {
         return NextResponse.json({ success: false, error: "Failed to update category" }, { status: 500 });
     }
 }
+
 
 // Get all About entries
 export async function GET() {

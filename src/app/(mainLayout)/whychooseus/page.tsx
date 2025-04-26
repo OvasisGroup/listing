@@ -1,5 +1,4 @@
 
-import WhyChoose from '@/components/general/whychoose/DisplayWhyChoose'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -20,7 +19,8 @@ export default function whychooseuspage() {
                     </div>
                 </div>
                 <div className='py-10'>
-                <WhyChoose />
+
+
                 </div>
             </div>
         </>

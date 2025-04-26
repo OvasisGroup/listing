@@ -90,22 +90,15 @@ const data = {
     },
 
     {
-      title: "TVETS",
-      url: "/admin/tvets",
+      title: "About",
+      url: "/admin/about",
       icon: LayoutDashboard,
     },
 
     {
-      title: "CMS",
-      url: "/admin/cms",
+      title: "TVETS",
+      url: "/admin/tvets",
       icon: LayoutDashboard,
-      items: [
-        {
-          title: "About",
-          url: "/admin/cms/about",
-          icon: LayoutDashboard,
-        }
-      ]
     }
   ],
   navSecondary: [
