@@ -96,6 +96,12 @@ const data = {
     },
 
     {
+      title: "Why Choose Us",
+      url: "/admin/whychooseus",
+      icon: LayoutDashboard,
+    },
+
+    {
       title: "TVETS",
       url: "/admin/tvets",
       icon: LayoutDashboard,

@@ -1,91 +1,91 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { auth } from '@/lib/auth';
+
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Create a new About entry
-export async function POST(req: Request) {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  
+export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const title = formData.get("title") as string;
-    const body = formData.get("body") as string;
-    const image = formData.get("image") as File;
+    const body = await req.json();
+    const { title, body: content } = body;
 
-    if (!title || !body || !image) {
-      return NextResponse.json({ error: "Title and body are required" }, { status: 400 });
+    if (!title || !content) {
+      return NextResponse.json({ error: "Title and body are required." }, { status: 400 });
     }
 
-    // TODO: handle the image (e.g., upload to cloud storage or save to disk)
+    const newEntry = await prisma.whatitmeans.create({
+      data: {
+        title,
+        body: content,
+      },
+    });
 
-    return NextResponse.json({ message: "How We Help created successfully!" });
+    return NextResponse.json(newEntry, { status: 201 });
   } catch (error) {
-    console.error("Error creating How We Help:", error);
+    console.error("Error creating Whatitmeans:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-// Get all About entries
+
+// GET all Whychooseus
 export async function GET() {
   try {
-    const aboutEntries = await prisma.about.findMany();
-    return NextResponse.json(aboutEntries, { status: 200 });
-  } catch (error) {
-    console.error("GET /api/about error:", error);
-    return NextResponse.json({ error: 'Failed to fetch About entries', details: (error instanceof Error ? error.message : 'Unknown error') }, { status: 500 });
-  }
-}
-
-// Update an About entry
-export async function PUT(req: Request) {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  try {
-    const { id, title, body } = await req.json();
-
-    if (!id || !title || !body) {
-      return NextResponse.json({ error: 'ID, title, and body are required' }, { status: 400 });
-    }
-
-    const updatedAbout = await prisma.about.update({
-      where: { id },
-      data: { title, body },
+    const entries = await prisma.whatitmeans.findMany({
+      orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json(updatedAbout, { status: 200 });
+    return NextResponse.json(entries);
   } catch (error) {
-    console.error("PUT /api/about error:", error);
-    return NextResponse.json({ error: 'Failed to update About entry', details: (error instanceof Error ? error.message : 'Unknown error') }, { status: 500 });
+    console.error(error);
+    return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });
   }
 }
 
-// Delete an About entry
-export async function DELETE(req: Request) {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+// PATCH to update a Whatitmeans entry
+export async function PATCH(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const body = await req.json();
+    const { id, title, body: content } = body;
 
     if (!id) {
-      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+      return NextResponse.json({ error: "ID is required." }, { status: 400 });
     }
 
-    await prisma.about.delete({ where: { id } });
+    const updatedEntry = await prisma.whatitmeans.update({
+      where: { id },
+      data: {
+        ...(title && { title }),
+        ...(content && { body: content }),
+      },
+    });
 
-    return NextResponse.json({ message: 'About entry deleted' }, { status: 200 });
+    return NextResponse.json(updatedEntry);
   } catch (error) {
-    console.error("DELETE /api/about error:", error);
-    return NextResponse.json({ error: 'Failed to delete About entry', details: (error instanceof Error ? error.message : 'Unknown error') }, { status: 500 });
+    console.error("Error updating Whatitmeans:", error);
+    return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
   }
 }
+
+// DELETE a Whatitmeans entry
+export async function DELETE(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required." }, { status: 400 });
+    }
+
+    await prisma.whatitmeans.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "Deleted successfully." }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting Whatitmeans:", error);
+    return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
+  }
+}
+
+

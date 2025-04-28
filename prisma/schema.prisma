@@ -14,36 +14,42 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String          @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
-  phone         String?         @unique
-  role          Role            @default(USER) // Add Role field with default value
+  phone         String?   @unique
+  role          Role      @default(USER) // Add Role field with default value
   accounts      Account[]
   sessions      Session[]
 
-  profile       Profile?
-  userType      UserType?
-  listings      Listing[] // ✅ One-to-many: one user can have multiple listings
+  profile  Profile?
+  userType UserType?
+  listings Listing[] @relation("UserListings")
 
-  otps       OTP[]    // ✅ One-to-many: one user can have multiple OTPs
+  otps OTP[] // ✅ One-to-many: one user can have multiple OTPs
 
-  onboardingCompleted Boolean @default(false)
-  lastLogin DateTime @default(now()) // Add this field
+  onboardingCompleted Boolean  @default(false)
+  lastLogin           DateTime @default(now()) // Add this field
 
-  Company       Company?
-  JobSeeker     JobSeeker?
+  Company   Company?
+  JobSeeker JobSeeker?
 
-  messagesSent   Message[] @relation("SentMessages")
+  messagesSent     Message[] @relation("SentMessages")
   messagesReceived Message[] @relation("ReceivedMessages")
 
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+
+  favorites     Listing[] @relation("UserFavorites")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
+
+  Payment Payment[]
 }
 
 // Define Enum for Roles
@@ -59,34 +65,34 @@ enum UserType {
 }
 
 model Message {
-  id           String   @id @default(uuid())
-  text         String
-  senderId     String
-  receiverId   String?
-  sender       User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver     User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  createdAt    DateTime @default(now())
+  id         String   @id @default(uuid())
+  text       String
+  senderId   String
+  receiverId String?
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model Company {
-  id            String   @id @default(cuid())
-  name          String
-  email         String   @unique
-  location      String
-  website       String?
-  about         String
-  logo          String?
+  id       String  @id @default(cuid())
+  name     String
+  email    String  @unique
+  location String
+  website  String?
+  about    String
+  logo     String?
 
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String   @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 model Profile {
-  id            String     @id @default(uuid())
-  userId        String     @unique
+  id            String        @id @default(uuid())
+  userId        String        @unique
   title         String
   name          String
   image         String?
@@ -95,12 +101,12 @@ model Profile {
   telephone     String?
   subCategories SubCategory[] @relation("ProfileSubCategories") // Relation to SubCategory model
 
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobSeeker     JobSeeker?  @relation // Relation to JobSeeker
-  jobSeekerId   String?     @unique   // Foreign key to JobSeeker
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobSeeker   JobSeeker? @relation // Relation to JobSeeker
+  jobSeekerId String?    @unique // Foreign key to JobSeeker
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model JobSeeker {
@@ -110,14 +116,15 @@ model JobSeeker {
   resume    String
   about     String
   profile   Profile? @relation(fields: [profileId], references: [id]) // Relation to Profile
-  profileId String?  @unique   // Foreign key to Profile
+  profileId String?  @unique // Foreign key to Profile
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
-  userId    String   @unique   // Foreign key to User
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
+  userId String @unique // Foreign key to User
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model Account {
   userId            String
   type              String
@@ -130,33 +137,33 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
@@ -167,18 +174,18 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([userId, credentialID])
 }
 
 model Tvets {
-  id            String   @id @default(cuid())
-  name          String
+  id   String @id @default(cuid())
+  name String
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Category model for main categories
@@ -194,88 +201,86 @@ model Category {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  listings      Listing[] // ✅ One-to-many: one category can have multiple listings
-
   @@index([slug])
 }
 
 // SubCategory model for sub-categories
 model SubCategory {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  isActive    Boolean  @default(true)
-  categoryId  String   // Foreign key to Category
+  id         String  @id @default(cuid())
+  name       String
+  slug       String  @unique
+  isActive   Boolean @default(true)
+  categoryId String // Foreign key to Category
 
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  profiles    Profile[]  @relation("ProfileSubCategories") 
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  profiles Profile[] @relation("ProfileSubCategories")
 
-  listings    Listing[] // ✅ One-to-many: one subcategory can have multiple listings
+  listings  Listing[]   @relation("ListingSubCategories")
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
   @@index([slug])
   @@index([categoryId])
-  @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
 }
 
 model Availability {
-  id         String   @id @default(uuid())
-  userId     String   @unique
-  isAvailable Boolean @default(false)
-  startDate  DateTime?
-  endDate    DateTime?
-  startTime  String?  // Storing time as string (e.g., "14:30")
-  endTime    String?  
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  isAvailable Boolean   @default(false)
+  startDate   DateTime?
+  endDate     DateTime?
+  startTime   String? // Storing time as string (e.g., "14:30")
+  endTime     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Legal {
-  id            String   @id @default(cuid())
-  title          String
-  body          String
+  id    String @id @default(cuid())
+  title String
+  body  String
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model About {
-  id            String   @id @default(cuid())
-  title          String
-  body          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Help {
-  id            String   @id @default(cuid())
-  title          String
-  body          String
-  createdAt     DateTime @default(now())  
-  updatedAt     DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Whoweserve {
-  id            String   @id @default(cuid())
-  image         String
-  title          String
-  body          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        String   @id @default(cuid())
+  image     String
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Category model for main categories
 model Premium {
-  id            String        @id @default(cuid())
-  name          String        @unique
-  description   String?
-  image         String?
-  icon          String?
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  image       String?
+  icon        String?
 
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OTP {
@@ -285,46 +290,102 @@ model OTP {
   expiresAt DateTime
   createdAt DateTime @default(now())
 
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Listing {
+  id             String        @id @default(cuid())
+  title          String
+  description    String
+  budget         Float
+ 
+  userId         String
+  user           User          @relation("UserListings", fields: [userId], references: [id])
+
+  // Change to many-to-many relation with SubCategory
+  subCategories  SubCategory[] @relation("ListingSubCategories")
+
+  location       String?
+  googlePlaceId  String?
+
+  status         ListingStatus @default(active)
+  isFeatured     Boolean       @default(false)
+  isPremium      Boolean       @default(false)
+
+  startDate      DateTime?
+  endDate        DateTime?
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  favoritedBy    User[]        @relation("UserFavorites")
+
+  // Payment relation remains unchanged
+  payment        Payment?
+
+  @@index([userId])
+  @@index([googlePlaceId])
+}
+
+
+
+
+enum ListingStatus {
+  active
+  completed
+  cancelled
+  deactivated
+  expired
+}
+
+model Whychooseus {
   id        String   @id @default(cuid())
+  image     String
   title     String
-  description String
-  budget     Float
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
-  subCategoryId String
-  subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
-  location   String
-  status     String   @default("active") // e.g., "active", "completed", "cancelled"
-  isFeatured Boolean  @default(false)
-  isPremium  Boolean  @default(false)
-
-  startDate DateTime?
-  endDate   DateTime?
+  body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Whychooseus {
-  id            String   @id @default(cuid())
-  image         String
-  title          String
-  body          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model Whatitmeans {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Whatitmeans {
-  id            String   @id @default(cuid())
-  title          String
-  body          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+
+model Payment {
+  id          String    @id @default(cuid())
+  amount      Float
+  status      PaymentStatus @default(pending)
+  method      PaymentMethod
+
+  listingId   String    @unique // <- ADD @unique here ✅
+  listing     Listing   @relation(fields: [listingId], references: [id])
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
 }
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+}
+
+enum PaymentMethod {
+  mpesa
+  credit_card
+  paypal
+  stripe
+  bank_transfer
+}
+

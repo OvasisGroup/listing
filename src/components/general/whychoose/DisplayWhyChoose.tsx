@@ -1,5 +1,4 @@
 'use client'
-
 import CategoryForm from "./AddWhyChoose"
 
 const WhyChoose = () => {
