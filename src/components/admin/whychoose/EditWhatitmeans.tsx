@@ -79,7 +79,6 @@ export default function WhatdoesitMeanAdmin() {
     return (
       <div className="grid gap-12">
         <Skeleton className="w-full h-40 rounded" />
-        <Skeleton className="w-full h-40 rounded" />
       </div>
     );
   }

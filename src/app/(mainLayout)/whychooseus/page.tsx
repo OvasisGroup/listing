@@ -1,4 +1,5 @@
 
+import WhyChooseUsList from '@/components/admin/whychoose/ShowWhyChooseUs'
 import WhatdoesitMean from '@/components/general/WhatdoesitMean'
 import Image from 'next/image'
 import React from 'react'
@@ -11,6 +12,7 @@ export default function whychooseuspage() {
                 <div className='py-10'>
 
               <WhatdoesitMean/>
+            <WhyChooseUsList/>
 
                 </div>
             </div>

@@ -102,6 +102,24 @@ const data = {
     },
 
     {
+      title: "FAQs",
+      url: "/admin/faqs",
+      icon: LayoutDashboard,
+    },
+
+    {
+      title: "Safety",
+      url: "/admin/safety",
+      icon: LayoutDashboard,
+    },
+
+    {
+      title: "Expert Tips",
+      url: "/admin/expert_tips",
+      icon: LayoutDashboard,
+    },
+
+    {
       title: "TVETS",
       url: "/admin/tvets",
       icon: LayoutDashboard,
