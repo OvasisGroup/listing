@@ -54,7 +54,7 @@ export default function WhyChooseUsListEdit() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-8">
       {data.map(entry => (
         <div key={entry.id} className="p-4 border rounded shadow">
           {editingId === entry.id ? (
