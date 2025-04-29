@@ -309,6 +309,9 @@ model Listing {
   location       String?
   googlePlaceId  String?
 
+  estateName     String?
+  apartmentNumber String?
+
   status         ListingStatus @default(active)
   isFeatured     Boolean       @default(false)
   isPremium      Boolean       @default(false)
