@@ -40,7 +40,7 @@ export default function WhyChooseUsList() {
   return (
     <div className="grid md:grid-cols-4 gap-6 grid-cols-2 mt-10">
       {data.map(entry => (
-        <div key={entry.id} className="p-4 border rounded-2xl hover:bg-green-50 transition duration-300 ease-in-out">
+        <div key={entry.id} className="p-4 border rounded-2xl hover:border-green-600">
             <Image src={entry.image} alt={entry.title} width={60} height={60} className='mt-4 pb-4' />
           <h3 className="text-lg font-bold">{entry.title}</h3>
           <p>{entry.body}</p>

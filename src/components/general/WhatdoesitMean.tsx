@@ -42,8 +42,7 @@ export default function WhatdoesitMean() {
 
     if (loading) {
         return (
-            <div className="grid md:grid-cols-2 gap-12">
-                <Skeleton className="w-full h-40 rounded" />
+            <div className="w-full">
                 <Skeleton className="w-full h-40 rounded" />
             </div>
         );
@@ -59,8 +58,8 @@ export default function WhatdoesitMean() {
             ) : (
                 aboutEntries.map((entry) => (
                     <div key={entry.id} className="">
-                        <h2 className="text-2xl md:text-4xl font-bold text-primary">{entry.title}</h2>
-                        <p>{entry.body}</p>
+                        <h2 className="text-xl md:text-4xl font-bold text-primary">{entry.title}</h2>
+                        <p className='md:text-2xl font-light'>{entry.body}</p>
                     </div>
                 ))
             )}

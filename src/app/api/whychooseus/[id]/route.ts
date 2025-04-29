@@ -18,7 +18,7 @@ export async function PATCH(req: NextRequest, context: Context) {
         const { title, body } = bodyContent;
 
         // Update the category
-        const updatedCategory = await prisma.whoweserve.update({
+        const updatedCategory = await prisma.whychooseus.update({
             where: { id },
             data: {
                 title: title || undefined,
