@@ -392,3 +392,20 @@ enum PaymentMethod {
   bank_transfer
 }
 
+model Faqs {
+  id        Int       @id @default(autoincrement())
+  title     String
+  faqheaders  FaqHeaders[]
+}
+
+model FaqHeaders {
+  id      Int    @id @default(autoincrement())
+  title   String
+  body    String
+  faqId  Int
+  faqs    Faqs   @relation(fields: [faqId], references: [id])
+}
+
+
+
+

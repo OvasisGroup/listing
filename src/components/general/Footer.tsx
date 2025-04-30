@@ -31,8 +31,8 @@ export default function Footer() {
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Solutions Center & Expert Tips</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Sign up as a Pro</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/legal'>Legal</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Safety</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>FAQs</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/solutions'>Safety</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/faqs'>FAQs</Link></li>
                         </ul>
                     </div>
                     <div>
