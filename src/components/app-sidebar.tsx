@@ -108,6 +108,12 @@ const data = {
     },
 
     {
+      title: "Finance my Project",
+      url: "/admin/finance",
+      icon: LayoutDashboard,
+    },
+
+    {
       title: "Safety",
       url: "/admin/safety",
       icon: LayoutDashboard,

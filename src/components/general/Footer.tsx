@@ -27,9 +27,9 @@ export default function Footer() {
                     <div>
                         <p className='text-primary font-black'>Resources</p>
                         <ul>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm '><Link href='#'>Finance My Project</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Solutions Center & Expert Tips</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Sign up as a Pro</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm '><Link href='/financing'>Finance My Project</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/solutions'>Solutions Center & Expert Tips</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/sign_up_as_a_pro'>Sign up as a Pro</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/legal'>Legal</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/solutions'>Safety</Link></li>
                             <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/faqs'>FAQs</Link></li>
@@ -38,8 +38,8 @@ export default function Footer() {
                     <div>
                         <p className='text-primary font-black'>Support</p>
                         <ul>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Help</Link></li>
-                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='#'>Contact Us</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/help'>Help</Link></li>
+                            <li className='text-white border-b-1 border-zinc-600 py-2 text-sm'><Link href='/contacts'>Contact Us</Link></li>
                         </ul>
                         <Image src={'/images/apple-store.png'} width={150} height={100} alt={'apple'}  className='py-4'/>
                         <Image src={'/images/google-store.png'} width={150} height={100} alt={'apple'} />

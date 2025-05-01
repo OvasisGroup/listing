@@ -359,6 +359,23 @@ model Whatitmeans {
   updatedAt DateTime @updatedAt
 }
 
+model Finance {
+  id        String   @id @default(cuid())
+  title     String
+  content      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Projects {
+  id        String   @id @default(cuid())
+  image     String
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 
 model Payment {
   id          String    @id @default(cuid())
