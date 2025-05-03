@@ -1,52 +1,79 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-import { z } from 'zod'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// app/api/faqs/route.ts
+import { NextResponse, NextRequest } from 'next/server';
+import { prisma } from '../../../../prisma/prisma';
 
-const prisma = new PrismaClient()
 
-const faqSchema = z.object({
-  title: z.string().min(1),
-  faqheaders: z.array(
-    z.object({
-      title: z.string().min(1),
-      body: z.string().min(1),
-    })
-  ).min(1),
-})
-
-export async function POST(req: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const body = await req.json()
-    const parsed = faqSchema.safeParse(body)
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
 
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: parsed.error.format() },
-        { status: 400 }
-      )
+    if (id) {
+      const faq = await prisma.faq.findUnique({
+        where: { id: Number(id) },
+        include: { section: true },
+      });
+      if (!faq) {
+        return NextResponse.json({ error: 'FAQ not found' }, { status: 404 });
+      }
+      return NextResponse.json(faq);
     }
 
-    const { title, faqheaders } = parsed.data
-
-    const post = await prisma.faqs.create({
-      data: {
-        title,
-        faqheaders: {
-          create: faqheaders.map((header) => ({
-            title: header.title,
-            body: header.body,
-          })),
-        },
-      },
-      include: {
-        faqheaders: true,
-      },
-    })
-
-    return NextResponse.json(post, { status: 201 })
+    const faqs = await prisma.faq.findMany({
+      include: { section: true },
+    });
+    return NextResponse.json(faqs);
   } catch (error) {
-    console.error('[POST /api/faqs] Error:', error)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch FAQs' }, { status: 500 });
   }
 }
-  
+
+// POST a new FAQ
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { title, description, sectionId } = body;
+
+    if (!title || !description || !sectionId) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    const newFaq = await prisma.faq.create({
+      data: {
+        title,
+        description,
+        sectionId,
+      },
+    });
+
+    return NextResponse.json(newFaq, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to create FAQ' }, { status: 500 });
+  }
+}
+
+// PATCH an existing FAQ
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, title, description, sectionId } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'FAQ ID is required' }, { status: 400 });
+    }
+
+    const updatedFaq = await prisma.faq.update({
+      where: { id: Number(id) },
+      data: {
+        ...(title && { title }),
+        ...(description && { description }),
+        ...(sectionId && { sectionId }),
+      },
+    });
+
+    return NextResponse.json(updatedFaq);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update FAQ' }, { status: 500 });
+  }
+}
