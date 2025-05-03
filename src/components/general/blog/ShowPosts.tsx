@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 type Post = {
@@ -42,27 +43,28 @@ export default function PostsList() {
   return (
     <div className="grid gap-6 py-6 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
-        <div
+        <Link
           key={post.id}
-          className="bg-white shadow-md rounded-xl overflow-hidden border"
+          href={`/admin/expert_tips/${post.id}`}
+          className="bg-white shadow-md rounded-xl overflow-hidden border hover:shadow-lg transition-shadow duration-200"
         >
           {post.image && (
             <Image
               src={post.image}
               alt={post.title}
               className="w-full h-48 object-cover"
-                width={500}
-                height={100}
+              width={500}
+              height={192}
             />
           )}
           <div className="p-4">
-            <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+            <h2 className="text-xl font-semibold mb-2 hover:underline text-primary">{post.title}</h2>
             <p className="text-sm text-gray-600 mb-2">
               Category: {post.category.name}
             </p>
             <p className="text-gray-700 text-sm line-clamp-4">{post.content}</p>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )
