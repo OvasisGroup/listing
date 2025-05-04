@@ -79,12 +79,12 @@ export function NavigationMenuCleaning() {
                                 
                                 <ListItem
                                     key={category.name}
-                                    title={category.name}
                                     href={category.link}
                                     className="font-black"
                                 >
+                                    <h5 className="font-bold text-black">{category.name}</h5> 
                                     <Image src={category.icon} alt={category.name} width={40} height={50} className='object-contain my-4' />
-                                    <h5 className="">{category.description}</h5>
+                                    <h5 className="font-light">{category.description}</h5>
                                 </ListItem>
                             ))}
                         </ul>
