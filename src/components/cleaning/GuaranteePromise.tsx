@@ -12,6 +12,7 @@ export default function GuaranteePromise() {
             <p className='text-white text-xl font-light text-center'>
             Our referral and reviews by our loyal, recurring customers reflect our unwavering commitment to your complete satisfaction. Your time is precious—why spend it scrubbing showers? Start living more and cleaning less by contacting your local Mr.KIM cleaning team today!
             </p>
+            
           </div>
         </div>
         <div className="bg-[url('/images/nyumba.jpg')] bg-cover bg-center h-100 w-full">
