@@ -16,7 +16,7 @@ export default function ServicesList() {
         <Link href={'/cleaning/residential-cleaning'}>
         <div className='border p-6 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer'>
             <Image src={'/images/4x/redients@4x.png'} alt={'Cleaning'} width={70} height={70} />
-            <h1 className='text-primary font-bold md:text-xl py-4'>Commercial Cleaning</h1>
+            <h1 className='text-primary font-bold md:text-xl py-4'>Residential Cleaning</h1>
             <ArrowUpRight/>
         </div>
         </Link>
