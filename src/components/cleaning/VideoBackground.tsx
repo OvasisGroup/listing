@@ -17,18 +17,19 @@ const VideoBackground = () => {
       />
 
       {/* Overlay */}
-      {/* <div className="absolute top-0 left-0 w-full h-full bg-primary bg-opacity-10 z-10" /> */}
+      <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10"/>
 
       {/* Animated Text */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2 }}
-        className="relative z-20 flex items-center justify-center h-full px-4"
+        className="relative z-20 flex flex-col items-center justify-center h-full px-4"
       >
         <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
-          Welcome to Our Platform
+          Welcome to Mr. Kim <br/><span className='font-light text-primary'>Cleaning Services</span>
         </h1>
+        
       </motion.div>
 
       {/* Bottom Right Tabs */}
