@@ -34,14 +34,6 @@ export default function HeroSection() {
             has professionally trained team members, and more than thousands of hours dedicated to
             cleaning annually—Mr. KIM is your expert in exceptional home cleaning.
           </p>
-          <p className="mt-4">
-            Our referral and reviews by our loyal, recurring customers reflect our unwavering
-            commitment to your complete satisfaction.{' '}
-            <span className="font-bold">
-              Your time is precious—why spend it scrubbing showers? Start living more and cleaning
-              less by contacting your local Mr.KIM cleaning team today!
-            </span>
-          </p>
         </motion.div>
 
         <motion.div
