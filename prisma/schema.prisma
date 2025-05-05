@@ -329,15 +329,29 @@ model Listing {
   @@index([googlePlaceId])
 }
 
-
-
-
 enum ListingStatus {
   active
   completed
   cancelled
   deactivated
   expired
+}
+
+model CleaningForm {
+  id          String    @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  address     String
+  aptSuite  String
+  bedroooms   Int?
+  bathrooms   Int?
+  cleaningType String?
+  description String?
+  contactType String?
+  date        DateTime?
+  time        String?
 }
 
 model Whychooseus {
