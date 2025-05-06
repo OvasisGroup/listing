@@ -1,10 +1,15 @@
+"use client"
 import React from 'react'
 import { Card } from '../ui/card'
 import { ArrowUpRight } from 'lucide-react'
 import UserCount from './UsersCount'
 import JobSeekerCount from './JobSeekersCount'
+import TotalPayment from './TotalPayment'
+import ListingCount from './listings/Count'
 
 export default function DashBoardCards() {
+    
+
     return (
         <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
             <Card className='shadow-none border-none bg-gray-200 '>
@@ -42,7 +47,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Jobs</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
+                        <ListingCount/>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>
@@ -54,7 +59,7 @@ export default function DashBoardCards() {
                     <p className='text-gray-800'>Current Total Revenue</p>
                     </div>
                     <div className='flex items-center gap-2 justify-between w-full'>
-                        <h1 className='font-ligh text-4xl text-gray-800 mt-4'>1000</h1>
+                    <TotalPayment/>
                         <ArrowUpRight className='text-primary'/>
                     </div>
                 </div>

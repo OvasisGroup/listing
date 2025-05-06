@@ -129,7 +129,14 @@ const data = {
       title: "TVETS",
       url: "/admin/tvets",
       icon: LayoutDashboard,
+    },
+
+    {
+      title: "Payments",
+      url: "/admin/payments",
+      icon: LayoutDashboard,
     }
+
   ],
   navSecondary: [
     {

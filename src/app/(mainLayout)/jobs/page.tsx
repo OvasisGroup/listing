@@ -1,11 +1,11 @@
-import DisplayListings from '@/components/general/listings/DisplayListings'
+import CreateListingForm from '@/components/forms/listings/addListing'
 import React from 'react'
 
 export default function JobsPage() {
   
   return (
     <div>JobsPage
-      <DisplayListings/>
+      <CreateListingForm/>
     </div>
   )
 }

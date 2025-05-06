@@ -31,6 +31,7 @@ export default function Home() {
     </div>
     <div className="mb-10">
       <HomePageCategories/>
+      
     </div>
     <div className="mb-10">
       <AdvertSection/>

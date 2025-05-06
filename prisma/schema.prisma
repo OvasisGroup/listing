@@ -36,6 +36,8 @@ model User {
   Company   Company?
   JobSeeker JobSeeker?
 
+  Notifications Notification[]
+
   messagesSent     Message[] @relation("SentMessages")
   messagesReceived Message[] @relation("ReceivedMessages")
 
@@ -305,14 +307,11 @@ model Listing {
   subCategories  SubCategory[] @relation("ListingSubCategories")
 
   location       String?
-  googlePlaceId  String?
 
   estateName     String?
   apartmentNumber String?
 
   status         ListingStatus @default(active)
-  isFeatured     Boolean       @default(false)
-  isPremium      Boolean       @default(false)
 
   startDate      DateTime?
   endDate        DateTime?
@@ -326,7 +325,6 @@ model Listing {
   payment        Payment?
 
   @@index([userId])
-  @@index([googlePlaceId])
 }
 
 enum ListingStatus {
@@ -394,9 +392,13 @@ model Payment {
   amount      Float
   status      PaymentStatus @default(pending)
   method      PaymentMethod
+  receipt     String?
+  transactionId String?  // MpesaReceiptNumber
+  phoneNumber   String?
 
   listingId   String    @unique // <- ADD @unique here ✅
   listing     Listing   @relation(fields: [listingId], references: [id])
+  receiptUrl    String?  // <--- Add this line
 
   userId      String
   user        User      @relation(fields: [userId], references: [id])
@@ -411,6 +413,7 @@ enum PaymentStatus {
   pending
   paid
   failed
+  successful
 }
 
 enum PaymentMethod {
@@ -473,4 +476,14 @@ model Categories {
   id    String    @id @default(cuid())
   name  String  @unique
   posts Post[]
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  message   String
+  userId    String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
 }
