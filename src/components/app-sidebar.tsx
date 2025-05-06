@@ -133,7 +133,7 @@ const data = {
 
     {
       title: "Payments",
-      url: "/admin/payments",
+      url: "/admin/payment",
       icon: LayoutDashboard,
     }
 
