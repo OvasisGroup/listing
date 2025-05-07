@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { List } from "lucide-react";
 
 type SubCategory = {
     id: string;
@@ -174,7 +175,7 @@ export default function CategoryDetail() {
                 <div className="rounded-2xl">
                     <div className="md:pl-8"><h2 className="font-bold text-primary text-2xl pb-4">Major Categories</h2></div>
                     <MainCategoriesSidebar />
-                    <Link href="/allCategories"><Button className="mx-8 rounded-sm font-bold text-white w-full mt-4">All Categories</Button></Link>
+                    <Link href="/allCategories"><Button className="mx-8 rounded-sm font-bold text-white w-full mt-4"><List/> All Categories</Button></Link>
                 </div>
             </div>
         </div>
