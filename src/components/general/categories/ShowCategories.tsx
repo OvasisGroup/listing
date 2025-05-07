@@ -57,7 +57,11 @@ export default function SubcategoryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Subcategories</h1>
+      <h1 className="text-2xl font-bold mb-4">Categories</h1>
+      <div>
+                          <h1 className='text-4xl font-bold text-primary'>All Categories</h1>
+                          <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
+                      </div>
 
       <input
         type="text"

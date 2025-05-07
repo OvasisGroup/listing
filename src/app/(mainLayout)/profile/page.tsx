@@ -2,7 +2,6 @@ import Image from "next/image";
 import { prisma } from "../../../../prisma/prisma";
 import { requireUser } from "@/utils/requireUser";
 import ProfileUpdateForm from "@/components/general/ProfileUpdateForm";
-import ImageUpload from "@/components/general/ProfileUpload";
 
 export default async function ProfilePage() {
   const session = await requireUser();
@@ -31,7 +30,7 @@ export default async function ProfilePage() {
       <div className="bg-[url('/images/splash.jpg')] bg-cover bg-center bg-no-repeat py-15 rounded-xl mb-4">
       <h1 className="text-2xl font-bold text-white pl-10">Profile</h1>
 
-      <ImageUpload userId={user.id} />
+
 
 
       </div>
