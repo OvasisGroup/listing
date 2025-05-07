@@ -73,7 +73,7 @@ export default function SubcategoryPage() {
       <ul className="space-y-2 flex flex-wrap gap-2">
         {filteredSubcategories.map((subcat) => (
           <li key={subcat.id} className="p-2 bg-gray-100 rounded text-black">
-            <Link href="/">{subcat.name}</Link>
+            <Link href="/post-job">{subcat.name}</Link>
           </li>
         ))}
       </ul>
