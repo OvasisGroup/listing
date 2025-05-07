@@ -56,7 +56,7 @@ export default function SubcategoryPage() {
   };
 
   return (
-    <div>
+    <div className='py-10'>
       <div>
                           <h1 className='text-4xl font-bold text-primary'>All Categories</h1>
                           <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
@@ -67,7 +67,7 @@ export default function SubcategoryPage() {
         placeholder="Search subcategories..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 p-2 border rounded w-full"
+        className="my-4 p-2 border rounded w-full"
       />
 
       <ul className="space-y-2 flex flex-wrap gap-2">
