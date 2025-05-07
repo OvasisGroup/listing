@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/../../prisma/prisma'; // adjust path as needed
+import { prisma } from '../../../../../prisma/prisma';
+
 
 export async function GET() {
   try {

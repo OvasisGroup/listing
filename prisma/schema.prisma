@@ -85,6 +85,7 @@ model Company {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
+  profile  Profile?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,6 +105,12 @@ model Profile {
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobSeeker   JobSeeker? @relation // Relation to JobSeeker
   jobSeekerId String?    @unique // Foreign key to JobSeeker
+
+  company       Company?      @relation(fields: [companyId], references: [id])
+  companyId     String?       @unique
+
+  tvet      Tvets?    @relation(fields: [tvetId], references: [id])
+  tvetId    String?  // optional foreign key
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -183,6 +190,8 @@ model Authenticator {
 model Tvets {
   id   String @id @default(cuid())
   name String
+
+  profiles Profile[] // Relation to profiles
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -487,3 +496,5 @@ model Notification {
 
   user      User     @relation(fields: [userId], references: [id])
 }
+
+

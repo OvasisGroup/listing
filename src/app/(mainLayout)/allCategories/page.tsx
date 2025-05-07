@@ -1,10 +1,12 @@
 import React from 'react'
-import CategoryPage from '@/components/search/SubCategories';
+import SubcategoriesComponent from '@/components/general/categories/ShowCategories';
 
 export default function AllCategories() {
+
+  
   return (
     <div>AllCategories
-        <CategoryPage/>
+        <SubcategoriesComponent/>
     </div>
   )
 }
