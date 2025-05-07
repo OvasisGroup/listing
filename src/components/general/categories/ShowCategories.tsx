@@ -57,7 +57,6 @@ export default function SubcategoryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Categories</h1>
       <div>
                           <h1 className='text-4xl font-bold text-primary'>All Categories</h1>
                           <p>Looking for Professional Service Provider or <span><Link href={"/jobs"}>Open Job Opportunity?</Link></span></p>
@@ -73,7 +72,7 @@ export default function SubcategoryPage() {
 
       <ul className="space-y-2 flex flex-wrap gap-2">
         {filteredSubcategories.map((subcat) => (
-          <li key={subcat.id} className="p-2 bg-gray-100 rounded">
+          <li key={subcat.id} className="p-2 bg-gray-100 rounded text-black">
             <Link href="/">{subcat.name}</Link>
           </li>
         ))}
