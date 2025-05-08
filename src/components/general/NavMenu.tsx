@@ -69,13 +69,13 @@ export function NavigationMenuDemo() {
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem href="/about" title="About">
+                            <ListItem href="/about" title="About" className="font-bold text-primary">
                                      Meet Mr.KIM, your source for trusted local professional service providers in your area.
                             </ListItem>
-                            <ListItem href="/talent" title="Talent">
+                            <ListItem href="/cleaning" title="Talent" className="font-bold text-primary">
                                 Discover the best local talent for your needs.
                             </ListItem>
-                            <ListItem href="/premium" title="Premium">
+                            <ListItem href="/premium" title="Premium" className="font-bold text-primary">
                                 Enjoy the benefits of premium services.
                             </ListItem>
                         </ul>
@@ -96,6 +96,20 @@ export function NavigationMenuDemo() {
                       <h5 className="">{category.description}</h5>
                                 </ListItem>
                             ))}
+                             <ListItem
+                                    title="Cleaning Services"
+                                    href={`/cleaning`}
+                                    className="font-bold bg-primary text-white hover:bg-green-800 hover:text-white"
+                                ><Image src={'/images/cleaningicon.png'} alt={'cleaning'} width={40} height={50} className='object-contain my-4' />
+                      <h5 className="text-white">Specialised and custom cleaning services</h5>
+                                </ListItem>
+                                <ListItem
+                                    title="All Services"
+                                    href={`/allCategories`}
+                                    className="font-bold"
+                                ><Image src={'/images/categoriesicon.png'} alt={'category'} width={40} height={50} className='object-contain my-4' />
+                      <h5 className="">Search and Find Seervices within your locality</h5>
+                                </ListItem>
                         </ul>
                        
                     </NavigationMenuContent>

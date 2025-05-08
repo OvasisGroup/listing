@@ -10,7 +10,7 @@ export default function HomePageSearch() {
             <div className='flex w-full justify-center items-center gap-2'>
             <form className="flex w-full" action={`/search`} method="get">
             <button type='submit'><SearchIcon className="text-muted-foreground mr-2" /></button> 
-                <Input type="text" placeholder="Search By Category" className="w-full border-none shadow-none outline-none text-black-800 dark:text-black" />
+                <Input name="q" type="text" placeholder="Search By Category" className="w-full border-none shadow-none outline-none text-black-800 dark:text-black" />
             </form>            
         </div>
         </div>

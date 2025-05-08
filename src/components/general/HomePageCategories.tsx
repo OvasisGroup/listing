@@ -10,34 +10,36 @@ type Categories = {
     id: string;
     name: string;
     icon: string;
-  }
+}
 
 
 export default function HomePageCategories() {
 
     const [data, setData] = useState<Categories[]>([]);
-    
-      useEffect(() => {
+
+    useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`); // Replace with your API
-            const json = await res.json();
-            setData(json);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`); // Replace with your API
+                const json = await res.json();
+                setData(json);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         };
-    
+
         fetchData();
-      }, []);
+    }, []);
 
 
     return (
         <>
-            <motion.div className='mt-10'
-            >
-                <h1 className='font-bold text-3xl'>Browse talent by category</h1>
-                <p className='text-xl'>Looking for work? <span className='text-primary'><Link href={'/jobs'}>Browse Jobs</Link></span></p>
+            <motion.div className='mt-10 flex justify-between items-end w-full'>
+                <div>
+                    <h1 className='font-bold text-3xl'>Browse talent by category</h1>
+                    <p className='text-xl'>Looking for work? <span className='text-primary'><Link href={'/jobs'}>Browse Jobs</Link></span></p>
+                </div>
+                <Link href={'/allCategories'}><div className='mt-4 flex gap-2 items-center'><h1 className='text-primary font-bold md:text-2xl'>All Categories</h1> <ArrowUpRightIcon /></div></Link>
             </motion.div>
             <motion.div className="grid md:grid-cols-4 gap-6 mt-10"
                 initial={{ opacity: 0, y: 50 }}
@@ -48,7 +50,7 @@ export default function HomePageCategories() {
                     <Link key={category.id} href={`/categories/${category.id}`}>
                         <Card key={category.id} className="shadow-none hover:bg-gray-800 hover:text-white">
                             <CardHeader>
-                                <Image src={category.icon} alt={category.name} width={40} height={40}  className='object-contain' />
+                                <Image src={category.icon} alt={category.name} width={40} height={40} className='object-contain' />
                             </CardHeader>
                             <CardContent className=' first:text-white'>
                                 <p className='font-bold text-xl '>{category.name}</p>

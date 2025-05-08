@@ -67,7 +67,7 @@ export default function SubcategoryPage() {
         placeholder="Search subcategories..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="my-4 p-2 border rounded w-full"
+        className="my-4 p-2 border rounded w-full border-primary"
       />
 
       <ul className="space-y-2 flex flex-wrap gap-2">
