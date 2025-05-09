@@ -10,24 +10,30 @@ export async function POST(req: Request) {
             return NextResponse.json({ success: false, error: "Request body must be a non-empty array" }, { status: 400 });
         }
 
-        const data = body.map(item => ({
-            name: item.name,
-            slug: item.slug,
-            isActive: Boolean(item.isActive),
-            categoryId: item.categoryId,
-        }));
+        const data = body.map(item => {
+            if (!item.name || !item.slug || !item.categoryId) {
+                throw new Error("Each item must have 'name', 'slug', and 'categoryId'");
+            }
+            return {
+                name: item.name,
+                slug: item.slug,
+                isActive: Boolean(item.isActive),
+                categoryId: item.categoryId,
+            };
+        });
 
         const subCategories = await prisma.subCategory.createMany({
             data,
             skipDuplicates: true,
         });
 
-        return NextResponse.json({ success: true, data: subCategories }, { status: 201 });
+        return NextResponse.json({ success: true, count: subCategories.count }, { status: 201 });
     } catch (error) {
         console.error("Error creating subcategories:", error);
-        return NextResponse.json({ success: false, error: "Failed to create subcategories" }, { status: 500 });
+        return NextResponse.json({ success: false, error: error instanceof Error ? error.message : "Failed to create subcategories" }, { status: 500 });
     }
 }
+
 
 
 export async function GET() {

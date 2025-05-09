@@ -217,7 +217,7 @@ model Category {
 model SubCategory {
   id         String  @id @default(cuid())
   name       String
-  slug       String  @unique
+  slug       String  
   isActive   Boolean @default(true)
   categoryId String // Foreign key to Category
 
@@ -229,7 +229,7 @@ model SubCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
+  // @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
   @@index([slug])
   @@index([categoryId])
 }

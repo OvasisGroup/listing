@@ -1,5 +1,7 @@
 'use client';
 
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -72,9 +74,32 @@ export default function SubcategoryPage() {
 
       <ul className="space-y-2 flex flex-wrap gap-2">
         {filteredSubcategories.map((subcat) => (
-          <li key={subcat.id} className="p-2 bg-gray-100 rounded text-black">
-            <Link href="/post-job">{subcat.name}</Link>
-          </li>
+          // <li key={subcat.id} className="p-2 bg-gray-100 rounded text-black">
+          //   <Link href="/post-job">{subcat.name}</Link>
+          // </li>
+          <AlertDialog key={subcat.id}>
+          <AlertDialogTrigger asChild>
+              <Button className="border-1 rounded-4xl px-4 py-2 w-fit break-inside-avoid hover:bg-green-50 text-white hover:text-black">
+                  {subcat.name}
+              </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+              <AlertDialogHeader>
+                  <h2 className="text-lg font-bold">Subcategory Details</h2>
+                  <p>Do you want to post a job with <span className="font-bold text-primary">{subcat.name}?</span></p>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                  <AlertDialogCancel>
+                      Cancel
+                  </AlertDialogCancel>
+                  <Button asChild className="text-white">
+                      <Link href={`/post-job/${subcat.id}`}>
+                          Confirm
+                      </Link>
+                  </Button>
+              </AlertDialogFooter>
+          </AlertDialogContent>
+      </AlertDialog>
         ))}
       </ul>
 
