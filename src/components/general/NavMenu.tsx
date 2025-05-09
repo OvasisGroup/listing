@@ -92,7 +92,7 @@ export function NavigationMenuDemo() {
                                     title={category.name}
                                     href={`/categories/${category.id}`}
                                     className="font-bold"
-                                ><Image src={category.icon} alt={category.name} width={40} height={50} className='object-contain my-4' />
+                                ><Image src={category.icon} alt={category.name} width={20} height={30} className='object-contain my-4' />
                       <h5 className="">{category.description}</h5>
                                 </ListItem>
                             ))}

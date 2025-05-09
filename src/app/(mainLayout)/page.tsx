@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import HomePageCategories from "@/components/general/HomePageCategories";
 import AdvertSection from "@/components/general/AdvertSection";
 import LocationFetcher from "@/components/general/Location";
+import CleaningIntro from "@/components/general/cleaning/CleaningIntro";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
       <div className="mb-10">
         <HomePageCategories />
       </div>
+      <CleaningIntro/>
       <div className="mb-10">
         <AdvertSection />
       </div>
