@@ -29,12 +29,11 @@ export async function POST(req: NextRequest) {
     title,
     description,
     budget,
-    subCategoryIds,
+    categoryId,
     location,
     estateName,
     apartmentNumber,
-    startDate,
-    endDate,
+    duration,
     phoneNumber,
   } = body;
 
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
     !title ||
     !description ||
     !budget ||
-    !Array.isArray(subCategoryIds) ||
+    !categoryId ||
     !phoneNumber
   ) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -57,16 +56,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid budget amount' }, { status: 400 });
   }
 
-  const parsedStartDate = startDate ? new Date(startDate) : null;
-  const parsedEndDate = endDate ? new Date(endDate) : null;
-
-  if (
-    (parsedStartDate && isNaN(parsedStartDate.getTime())) ||
-    (parsedEndDate && isNaN(parsedEndDate.getTime()))
-  ) {
-    return NextResponse.json({ error: 'Invalid start or end date' }, { status: 400 });
-  }
-
   const mpesaAmount = calculateMpesaCharge(numericBudget);
 
   try {
@@ -79,12 +68,9 @@ export async function POST(req: NextRequest) {
           location: location || null,
           estateName: estateName || null,
           apartmentNumber: apartmentNumber || null,
-          startDate: parsedStartDate,
-          endDate: parsedEndDate,
-          user: { connect: { id: session.id } },
-          subCategories: {
-            connect: subCategoryIds.map((id: string) => ({ id })),
-          },
+          duration: duration || null,
+          userId: session.id,
+          categoryId,
         },
       });
 
@@ -92,7 +78,7 @@ export async function POST(req: NextRequest) {
         data: {
           amount: mpesaAmount,
           method: 'mpesa',
-          status: 'pending', // initially pending
+          status: 'pending',
           userId: session.id,
           listingId: listing.id,
         },
@@ -101,7 +87,6 @@ export async function POST(req: NextRequest) {
       return { listing, payment };
     });
 
-    // Send STK Push
     const stkResponse = await initiateStkPush({
       amount: mpesaAmount,
       phoneNumber,
@@ -131,18 +116,18 @@ export async function GET() {
     const listings = await prisma.listing.findMany({
       include: {
         user: true,
-        subCategories: true,
+        category: true,
         payment: true,
         favoritedBy: true,
       },
       orderBy: {
         createdAt: 'desc',
       },
-    })
+    });
 
-    return NextResponse.json({ success: true, data: listings })
+    return NextResponse.json({ success: true, data: listings });
   } catch (error) {
-    console.error(error)
-    return NextResponse.json({ success: false, message: 'Failed to fetch listings' }, { status: 500 })
+    console.error(error);
+    return NextResponse.json({ success: false, message: 'Failed to fetch listings' }, { status: 500 });
   }
 }

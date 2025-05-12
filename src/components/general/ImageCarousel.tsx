@@ -6,9 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
 const images = [
-    '/images/autogarage.jpeg',
-    '/images/cleaninghome.png',
-    '/images/cleaningman.jpg',
+  '/images/cleaner-mrkim.jpg',
+    '/images/mechanic.jpg',
+    '/images/lawnmower.jpg',
+    '/images/fundi.jpg',
 ]
 
 const swipeConfidenceThreshold = 10000
@@ -70,7 +71,7 @@ export default function ImageCarousel() {
 
       {/* Navigation Buttons */}
       <div className="absolute inset-0 flex items-center justify-between px-4 z-10">
-        <button
+        {/* <button
           onClick={() => paginate(-1)}
           className="bg-black/40 text-white p-2 rounded-full hover:bg-black/60"
         >
@@ -81,7 +82,7 @@ export default function ImageCarousel() {
           className="bg-black/40 text-white p-2 rounded-full hover:bg-black/60"
         >
           ›
-        </button>
+        </button> */}
       </div>
     </div>
   )
