@@ -8,6 +8,7 @@ import LocationFetcher from "@/components/general/Location";
 import CleaningIntro from "@/components/general/cleaning/CleaningIntro";
 import ImageCarousel from "@/components/general/ImageCarousel";
 import FourGridCarousel from "@/components/general/Carousel";
+import UnderCleaning from "@/components/general/cleaning/UnderCleaning";
 
 export default function Home() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
         <FourGridCarousel/>
       </div>
       <CleaningIntro/>
+      <UnderCleaning/>
       <div className="mb-10">
         <AdvertSection />
       </div>
