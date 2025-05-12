@@ -3,12 +3,13 @@ import HomePageSearch from "@/components/forms/onboarding/HomePageSearch";
 // import Image from "next/image";
 import { motion } from "framer-motion";
 import HomePageCategories from "@/components/general/HomePageCategories";
-import AdvertSection from "@/components/general/AdvertSection";
+// import AdvertSection from "@/components/general/AdvertSection";
 import LocationFetcher from "@/components/general/Location";
 import CleaningIntro from "@/components/general/cleaning/CleaningIntro";
 import ImageCarousel from "@/components/general/ImageCarousel";
 import FourGridCarousel from "@/components/general/Carousel";
 import UnderCleaning from "@/components/general/cleaning/UnderCleaning";
+import Steps from "@/components/general/cleaning/Steps";
 
 export default function Home() {
   return (
@@ -41,7 +42,8 @@ export default function Home() {
       <CleaningIntro/>
       <UnderCleaning/>
       <div className="mb-10">
-        <AdvertSection />
+        <Steps/>
+        {/* <AdvertSection /> */}
       </div>
 
     </>
