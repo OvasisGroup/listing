@@ -39,7 +39,7 @@ export default function Home() {
       <div className="mb-10">
         <AdvertSection />
       </div>
-      <ImageCarousel/>
+
     </>
   );
 }
