@@ -1,0 +1,51 @@
+  [
+    { 
+      "id": "cm8ilggtc0001mtu1pqj403mh",
+      "title": "Automobile Services", 
+      "bg-image": "/images/mechanic.jpg", 
+      "href": "/categories/cm8ilggtc0001mtu1pqj403mh"
+    },
+    { 
+      "id": "cm8im5xkq0006mtu1pti9p33r", 
+      "title": "Handyman Services", 
+      "bg-image": "/images/plumberai.jpg", 
+      "href": "/categories/cm8im5xkq0006mtu1pti9p33r"
+    },
+    { 
+      "id": "cm8ilr3420002mtu1eg566s6i", 
+      "title": "Residential Services", 
+      "bg-image": "/images/apartment.png", 
+      "href": "/categories/cm8ilr3420002mtu1eg566s6i"
+    },
+    { 
+      "id": "cm8imb9k90007mtu149woefki", 
+      "title": "TukTuk Services", 
+      "bg-image": "/images/tuktuk-taxi.jpg", 
+      "href": "/categories/cm8imb9k90007mtu149woefki"
+    },
+    { 
+      "id": "cm8imb9k90007mtu149woefki", 
+      "title": "Digital Services", 
+      "bg-image": "/images/digital-man.jpg", 
+      "href": "/categories/cm8imb9k90007mtu149woefki"
+    },
+    { 
+      "id": "cm8il97jh0000mtu1oxr30h1d", 
+      "title": "Commercial Services", 
+      "bg-image": "/images/building.jpg", 
+      "href": "/categories/cm8il97jh0000mtu1oxr30h1d"
+    },
+    { 
+      "id": "cm8ilzyst0004mtu1bnk5fi9n", 
+      "title": "Boda Boda Services", 
+      "bg-image": "/images/pikipiki.jpg", 
+      "href": "/categories/cm8ilzyst0004mtu1bnk5fi9n"
+    },
+    { 
+      "id": "cm8imfq9y0008mtu1ztxeo59p", 
+      "title": "Other Services", 
+      "bg-image": "/images/tents.jpg", 
+      "href": "/categories/cm8imfq9y0008mtu1ztxeo59p"
+    }
+  ]
+  
