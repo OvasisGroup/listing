@@ -224,8 +224,6 @@ model SubCategory {
   category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   profiles Profile[] @relation("ProfileSubCategories")
 
-  listings  Listing[]   @relation("ListingSubCategories")
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -312,8 +310,8 @@ model Listing {
   userId         String
   user           User          @relation("UserListings", fields: [userId], references: [id])
 
-  // Change to many-to-many relation with SubCategory
-  subCategories  SubCategory[] @relation("ListingSubCategories")
+  categoryId     String
+  category       Categories   @relation(fields: [categoryId], references: [id])
 
   location       String?
 
@@ -322,8 +320,7 @@ model Listing {
 
   status         ListingStatus @default(active)
 
-  startDate      DateTime?
-  endDate        DateTime?
+  duration       Int?
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
@@ -342,6 +339,7 @@ enum ListingStatus {
   cancelled
   deactivated
   expired
+  pending
 }
 
 model CleaningForm {
@@ -485,6 +483,8 @@ model Categories {
   id    String    @id @default(cuid())
   name  String  @unique
   posts Post[]
+
+  Listing Listing[]
 }
 
 model Notification {
