@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,54 +8,31 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  phone         String?   @unique
-  role          Role      @default(USER) // Add Role field with default value
-  accounts      Account[]
-  sessions      Session[]
-
-  profile  Profile?
-  userType UserType?
-  listings Listing[] @relation("UserListings")
-
-  otps OTP[] // ✅ One-to-many: one user can have multiple OTPs
-
-  onboardingCompleted Boolean  @default(false)
-  lastLogin           DateTime @default(now()) // Add this field
-
-  Company   Company?
-  JobSeeker JobSeeker?
-
-  Notifications Notification[]
-
-  messagesSent     Message[] @relation("SentMessages")
-  messagesReceived Message[] @relation("ReceivedMessages")
-
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
-
-  favorites     Listing[] @relation("UserFavorites")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Payment Payment[]
-}
-
-// Define Enum for Roles
-enum Role {
-  USER
-  ADMIN
-  MODERATOR
-}
-
-enum UserType {
-  COMPANY
-  JOB_SEEKER
+  id                  String          @id @default(cuid())
+  name                String?
+  email               String          @unique
+  emailVerified       DateTime?
+  image               String?
+  role                Role            @default(USER)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  onboardingCompleted Boolean         @default(false)
+  userType            UserType?
+  lastLogin           DateTime        @default(now())
+  phone               String?         @unique
+  accounts            Account[]
+  Authenticator       Authenticator[]
+  Company             Company?
+  JobSeeker           JobSeeker?
+  listings            Listing[]       @relation("UserListings")
+  messagesReceived    Message[]       @relation("ReceivedMessages")
+  messagesSent        Message[]       @relation("SentMessages")
+  Notifications       Notification[]
+  otps                OTP[]
+  Payment             Payment[]
+  profile             Profile?
+  sessions            Session[]
+  favorites           Listing[]       @relation("UserFavorites")
 }
 
 model Message {
@@ -69,51 +40,45 @@ model Message {
   text       String
   senderId   String
   receiverId String?
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
   createdAt  DateTime @default(now())
+  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
 }
 
 model Company {
-  id       String  @id @default(cuid())
-  name     String
-  email    String  @unique
-  location String
-  website  String?
-  about    String
-  logo     String?
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
-  profile  Profile?
-
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  location  String
+  website   String?
+  about     String
+  logo      String?
+  userId    String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profile   Profile?
 }
 
 model Profile {
   id            String        @id @default(uuid())
   userId        String        @unique
-  title         String
-  name          String
+  telephone     String?
+  about         String?
   image         String?
   location      String?
-  about         String?
-  telephone     String?
-  subCategories SubCategory[] @relation("ProfileSubCategories") // Relation to SubCategory model
-
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobSeeker   JobSeeker? @relation // Relation to JobSeeker
-  jobSeekerId String?    @unique // Foreign key to JobSeeker
-
-  company       Company?      @relation(fields: [companyId], references: [id])
+  name          String
+  title         String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  jobSeekerId   String?       @unique
   companyId     String?       @unique
-
-  tvet      Tvets?    @relation(fields: [tvetId], references: [id])
-  tvetId    String?  // optional foreign key
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  tvetId        String?
+  jobSeeker     JobSeeker?
+  company       Company?      @relation(fields: [companyId], references: [id])
+  tvet          Tvets?        @relation(fields: [tvetId], references: [id])
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subCategories SubCategory[] @relation("ProfileSubCategories")
 }
 
 model JobSeeker {
@@ -122,14 +87,12 @@ model JobSeeker {
   location  String
   resume    String
   about     String
-  profile   Profile? @relation(fields: [profileId], references: [id]) // Relation to Profile
-  profileId String?  @unique // Foreign key to Profile
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
-  userId String @unique // Foreign key to User
-
+  userId    String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  profileId String?  @unique
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -144,11 +107,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -157,10 +118,9 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -171,7 +131,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -181,23 +140,19 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
 }
 
 model Tvets {
-  id   String @id @default(cuid())
-  name String
-
-  profiles Profile[] // Relation to profiles
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profiles  Profile[]
 }
 
-// Category model for main categories
 model Category {
   id            String        @id @default(cuid())
   name          String        @unique
@@ -206,28 +161,25 @@ model Category {
   image         String?
   icon          String?
   isActive      Boolean       @default(true)
-  subCategories SubCategory[] // Relation to subcategories
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  subCategories SubCategory[]
 
   @@index([slug])
 }
 
-// SubCategory model for sub-categories
 model SubCategory {
-  id         String  @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String
-  slug       String  
-  isActive   Boolean @default(true)
-  categoryId String // Foreign key to Category
+  slug       String
+  isActive   Boolean   @default(true)
+  categoryId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Listing    Listing[]
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  profiles   Profile[] @relation("ProfileSubCategories")
 
-  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  profiles Profile[] @relation("ProfileSubCategories")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // @@unique([categoryId, name]) // Ensure subcategory names are unique within a category
   @@index([slug])
   @@index([categoryId])
 }
@@ -238,17 +190,16 @@ model Availability {
   isAvailable Boolean   @default(false)
   startDate   DateTime?
   endDate     DateTime?
-  startTime   String? // Storing time as string (e.g., "14:30")
+  startTime   String?
   endTime     String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
 model Legal {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
+  id        String   @id @default(cuid())
+  title     String
+  body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -278,85 +229,64 @@ model Whoweserve {
   updatedAt DateTime @updatedAt
 }
 
-// Category model for main categories
 model Premium {
-  id          String  @id @default(cuid())
-  name        String  @unique
+  id          String   @id @default(cuid())
+  name        String   @unique
   description String?
   image       String?
   icon        String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model OTP {
   id        String   @id @default(cuid())
-  phone     String   @unique // Make phone unique
+  phone     String   @unique
   code      String
   expiresAt DateTime
   createdAt DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Listing {
-  id             String        @id @default(cuid())
-  title          String
-  description    String
-  budget         Float
- 
-  userId         String
-  user           User          @relation("UserListings", fields: [userId], references: [id])
+  id              String        @id @default(cuid())
+  title           String
+  description     String
+  budget          Float
+  userId          String
+  location        String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  status          ListingStatus @default(active)
+  apartmentNumber String
+  estateName      String
+  duration        Int
+  subCategoryId   String
+  subCategory     SubCategory   @relation(fields: [subCategoryId], references: [id])
+  user            User          @relation("UserListings", fields: [userId], references: [id])
+  payment         Payment?
+  favoritedBy     User[]        @relation("UserFavorites")
 
-  categoryId     String
-  category       Categories   @relation(fields: [categoryId], references: [id])
-
-  location       String?
-
-  estateName     String?
-  apartmentNumber String?
-
-  status         ListingStatus @default(active)
-
-  duration       Int?
-
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  favoritedBy    User[]        @relation("UserFavorites")
-
-  // Payment relation remains unchanged
-  payment        Payment?
-
+  @@index([subCategoryId])
   @@index([userId])
 }
 
-enum ListingStatus {
-  active
-  completed
-  cancelled
-  deactivated
-  expired
-  pending
-}
-
 model CleaningForm {
-  id          String    @id @default(cuid())
-  firstName   String
-  lastName    String
-  email       String
-  phone       String
-  address     String
-  aptSuite  String
-  bedroooms   Int?
-  bathrooms   Int?
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  address      String
+  aptSuite     String
+  bedroooms    Int?
+  bathrooms    Int?
   cleaningType String?
-  description String?
-  contactType String?
-  date        DateTime?
-  time        String?
+  description  String?
+  contactType  String?
+  date         DateTime?
+  time         String?
 }
 
 model Whychooseus {
@@ -379,41 +309,120 @@ model Whatitmeans {
 model Finance {
   id        String   @id @default(cuid())
   title     String
-  content      String
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Projects {
   id        String   @id @default(cuid())
-  image     String
   title     String
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  image     String
 }
 
-
 model Payment {
-  id          String    @id @default(cuid())
-  amount      Float
-  status      PaymentStatus @default(pending)
-  method      PaymentMethod
-  receipt     String?
-  transactionId String?  // MpesaReceiptNumber
+  id            String        @id @default(cuid())
+  amount        Float
+  status        PaymentStatus @default(pending)
+  method        PaymentMethod
+  listingId     String        @unique
+  userId        String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  receipt       String?
   phoneNumber   String?
-
-  listingId   String    @unique // <- ADD @unique here ✅
-  listing     Listing   @relation(fields: [listingId], references: [id])
-  receiptUrl    String?  // <--- Add this line
-
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  transactionId String?
+  receiptUrl    String?
+  listing       Listing       @relation(fields: [listingId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model Faqs {
+  id         Int          @id @default(autoincrement())
+  title      String
+  faqheaders FaqHeaders[]
+}
+
+model FaqHeaders {
+  id    Int    @id @default(autoincrement())
+  title String
+  body  String
+  faqId Int
+  faqs  Faqs   @relation(fields: [faqId], references: [id])
+}
+
+model Section {
+  id        Int    @id @default(autoincrement())
+  maintitle String
+  faqs      Faq[]
+}
+
+model Faq {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  sectionId   Int
+  section     Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id         String     @id @default(cuid())
+  title      String
+  content    String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  categoryId String
+  image      String?
+  category   Categories @relation(fields: [categoryId], references: [id])
+}
+
+model Categories {
+  id    String @id @default(cuid())
+  name  String @unique
+  posts Post[]
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  message   String
+  userId    String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum UserType {
+  COMPANY
+  JOB_SEEKER
+}
+
+enum ListingStatus {
+  active
+  completed
+  cancelled
+  deactivated
+  expired
+  pending
 }
 
 enum PaymentStatus {
@@ -430,71 +439,3 @@ enum PaymentMethod {
   stripe
   bank_transfer
 }
-
-model Faqs {
-  id        Int       @id @default(autoincrement())
-  title     String
-  faqheaders  FaqHeaders[]
-}
-
-model FaqHeaders {
-  id      Int    @id @default(autoincrement())
-  title   String
-  body    String
-  faqId  Int
-  faqs    Faqs   @relation(fields: [faqId], references: [id])
-}
-
-model Section {
-  id        Int         @id @default(autoincrement())
-  maintitle String
-  faqs      Faq[] // Relation to FAQs
-}
-
-model Faq {
-  id          Int               @id @default(autoincrement())
-  title       String
-  description String
-  sectionId   Int
-  section     Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-}
-
-model Blog {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  image     String?  // Optional featured image
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Post {
-  id          String    @id @default(cuid())
-  title       String
-  image       String?   
-  content     String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  categoryId  String
-  category    Categories  @relation(fields: [categoryId], references: [id])
-}
-
-model Categories {
-  id    String    @id @default(cuid())
-  name  String  @unique
-  posts Post[]
-
-  Listing Listing[]
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  message   String
-  userId    String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id])
-}
-
-

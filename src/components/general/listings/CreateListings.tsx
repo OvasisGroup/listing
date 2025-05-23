@@ -1,162 +1,204 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import Script from 'next/script';
 import axios from 'axios';
-import { jsPDF } from 'jspdf';
 import { useRouter } from 'next/navigation';
-import { useLoadScript, Autocomplete } from '@react-google-maps/api';
-
-const formSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().min(1),
-  budget: z.coerce.number().positive(),
-  phoneNumber: z.string().min(10),
-  location: z.string().optional(),
-  estateName: z.string().optional(),
-  apartmentNumber: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  subCategoryIds: z.array(z.string()).min(1),
-});
-
-type FormData = z.infer<typeof formSchema>;
 
 type SubCategory = {
   id: string;
   name: string;
 };
 
-const libraries: ("places")[] = ['places'];
-const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+type ListingFormValues = {
+  title: string;
+  description: string;
+  budget: number;
+  subCategoryId: string;
+  location: string;
+  estateName: string;
+  apartmentNumber: string;
+  duration: number;
+  phoneNumber: string;
+};
 
-export default function CreateListingForm() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+export default function ListingForm() {
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+  const [placesReady, setPlacesReady] = useState(false);
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey,
-    libraries,
-  });
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     setValue,
-    reset,
+    watch,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  });
+  } = useForm<ListingFormValues>();
+
+  const watchedValues = watch();
+
+  const nextStep = () => setStep((s) => s + 1);
+  const prevStep = () => setStep((s) => s - 1);
 
   useEffect(() => {
-    axios.get('/api/subcategories/subcategory')
+    axios
+      .get('/api/categories/subcategories')
       .then((res) => {
-        setSubCategories(res.data);
+        const data = res.data?.data ?? res.data;
+        if (Array.isArray(data)) setSubCategories(data);
       })
-      .catch((err) => {
-        console.error('Failed to fetch subcategories:', err);
-      });
+      .catch(() => setSubCategories([]));
   }, []);
 
-  const onPlaceChanged = () => {
-    if (autocomplete) {
+  useEffect(() => {
+    if (!placesReady || typeof window === 'undefined') return;
+    const input = document.getElementById('location') as HTMLInputElement;
+    if (!input) return;
+    const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+    autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
-      const location = place.formatted_address || '';
-      setValue('location', location);
-    }
-  };
+      if (place.formatted_address) {
+        setValue('location', place.formatted_address);
+      } else if (place.name) {
+        setValue('location', place.name);
+      }
+    });
+  }, [placesReady, setValue]);
 
-  const generatePDF = (data: FormData) => {
-    const doc = new jsPDF();
-    const date = new Date().toLocaleString();
-
-    doc.setFontSize(18);
-    doc.text("Payment Receipt", 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Date: ${date}`, 20, 30);
-    doc.text(`Title: ${data.title}`, 20, 40);
-    doc.text(`Description: ${data.description}`, 20, 50);
-    doc.text(`Phone: ${data.phoneNumber}`, 20, 60);
-    doc.text(`Budget: KES ${data.budget}`, 20, 70);
-    doc.text(`Location: ${data.location || '-'}`, 20, 80);
-    doc.text(`Estate: ${data.estateName || '-'}`, 20, 90);
-    doc.text(`Apartment: ${data.apartmentNumber || '-'}`, 20, 100);
-    doc.text(`Start: ${data.startDate || '-'}`, 20, 110);
-    doc.text(`End: ${data.endDate || '-'}`, 20, 120);
-
-    doc.save(`receipt-${data.title}-${Date.now()}.pdf`);
-  };
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ListingFormValues) => {
     try {
       setLoading(true);
-      const response = await axios.post('/api/listing', data);
-      console.log('Success:', response.data);
-      alert('Listing created & STK push sent!');
-    } catch (error: any) {
-      console.error('Error:', error.response?.data || error.message);
-      alert('Error: ' + (error.response?.data?.error || 'Something went wrong'));
-    } finally {
+      const res = await axios.post('/api/listing', data);
+      const { transactionId } = res.data;
+
+      let attempts = 0;
+      const maxAttempts = 10;
+      let paymentConfirmed = false;
+
+      while (!paymentConfirmed && attempts < maxAttempts) {
+        const statusRes = await axios.get(`/api/listing/status?transactionId=${transactionId}`);
+        if (statusRes.data.status === 'SUCCESS') {
+          paymentConfirmed = true;
+        } else {
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          attempts++;
+        }
+      }
+
       setLoading(false);
-      generatePDF(data);
-      reset();
-      router.push('/listings');
+
+      if (!paymentConfirmed) {
+        alert('Payment was not confirmed in time. Please try again.');
+        return;
+      }
+
+      const queryParams = new URLSearchParams(data as any).toString();
+      router.push(`/success?${queryParams}`);
+    } catch (error: any) {
+      setLoading(false);
+      console.error(error);
+      alert('Failed to complete listing or payment.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
-      <input {...register('title')} placeholder="Title" className="border p-2 w-full" />
-      <p className="text-red-500">{errors.title?.message}</p>
+    <div className="flex flex-col md:flex-row gap-8 container mx-auto py-10">
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+        onLoad={() => setPlacesReady(true)}
+      />
 
-      <textarea {...register('description')} placeholder="Description" className="border p-2 w-full" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      {/* Form Section */}
+      <div className="md:w-2/3">
+        <p className="mb-4">Create Listing (Step {step} of 3)</p>
+        <h2 className="text-xl font-semibold mb-4 text-primary">Tell Us About Your Location</h2>
 
-      <input type="number" {...register('budget')} placeholder="Budget" className="border p-2 w-full" />
-      <p className="text-red-500">{errors.budget?.message}</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {step === 1 && (
+            <>
+              <input {...register('location', { required: true })} id="location" placeholder="Location" className="input w-full p-2 border rounded" />
+              <input {...register('estateName', { required: true })} placeholder="Estate Name" className="input w-full p-2 border rounded" />
+              <input {...register('apartmentNumber', { required: true })} placeholder="Apartment Number" className="input w-full p-2 border rounded" />
+              <div className="flex justify-end">
+                <button type="button" onClick={nextStep} className="bg-primary text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+                  Next
+                </button>
+              </div>
+            </>
+          )}
 
-      <input {...register('phoneNumber')} placeholder="Phone Number" className="border p-2 w-full" />
-      <p className="text-red-500">{errors.phoneNumber?.message}</p>
+          {step === 2 && (
+            <>
+              <select {...register('subCategoryId', { required: true })} className="input w-full p-2 border rounded">
+                <option value="">Select Subcategory</option>
+                {subCategories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+              <div className="flex justify-between">
+                <button type="button" onClick={prevStep} className="bg-gray-300 px-4 py-2 rounded">
+                  Back
+                </button>
+                <button type="button" onClick={nextStep} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                  Next
+                </button>
+              </div>
+            </>
+          )}
 
-      {isLoaded && (
-        <Autocomplete
-          onLoad={(auto) => setAutocomplete(auto)}
-          onPlaceChanged={onPlaceChanged}
-        >
-          <input placeholder="Search Location" className="border p-2 w-full" />
-        </Autocomplete>
-      )}
-      <input type="hidden" {...register('location')} />
-      <p className="text-red-500">{errors.location?.message}</p>
+          {step === 3 && (
+            <>
+              <input {...register('title', { required: true })} placeholder="Title" className="input w-full p-2 border rounded" />
+              <textarea {...register('description', { required: true })} placeholder="Description" className="textarea w-full p-2 border rounded" />
+              <input {...register('budget', { required: true, valueAsNumber: true })} type="number" placeholder="Budget (KES)" className="input w-full p-2 border rounded" />
+              <input {...register('duration', { required: true, valueAsNumber: true })} type="number" placeholder="Duration (days)" className="input w-full p-2 border rounded" />
+              <input
+                {...register('phoneNumber', {
+                  required: true,
+                  pattern: /^(?:254|0)?7\d{8}$/,
+                })}
+                placeholder="Phone Number (e.g. 0712345678)"
+                className="input w-full p-2 border rounded"
+              />
+              <div className="flex justify-between">
+                <button type="button" onClick={prevStep} className="bg-gray-300 px-4 py-2 rounded">
+                  Back
+                </button>
+                <button type="submit" disabled={loading} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                  {loading ? 'Processing Payment...' : 'Submit & Pay'}
+                </button>
+              </div>
+            </>
+          )}
+        </form>
 
-      <input {...register('estateName')} placeholder="Estate Name" className="border p-2 w-full" />
-      <input {...register('apartmentNumber')} placeholder="Apartment Number" className="border p-2 w-full" />
-      <input type="date" {...register('startDate')} className="border p-2 w-full" />
-      <input type="date" {...register('endDate')} className="border p-2 w-full" />
+        {Object.keys(errors).length > 0 && (
+          <div className="text-red-500 mt-4">Please fill all required fields correctly.</div>
+        )}
+      </div>
 
-      <label>Subcategories:</label>
-      <select multiple {...register('subCategoryIds')} className="border p-2 w-full">
-        {subCategories.map((subcat) => (
-          <option key={subcat.id} value={subcat.id}>
-            {subcat.name}
-          </option>
-        ))}
-      </select>
-      <p className="text-red-500">{errors.subCategoryIds?.message}</p>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        {loading ? 'Submitting...' : 'Create Listing'}
-      </button>
-    </form>
+      {/* Preview Section */}
+      <div className="md:w-1/3 bg-gray-100 p-4 rounded shadow-md h-fit">
+        <h3 className="text-lg font-medium mb-2">Live Preview</h3>
+        <div className="text-sm space-y-2">
+          <p><strong>Location:</strong> {watchedValues.location}</p>
+          <p><strong>Estate:</strong> {watchedValues.estateName}</p>
+          <p><strong>Apartment:</strong> {watchedValues.apartmentNumber}</p>
+          <p><strong>Subcategory:</strong> {subCategories.find(s => s.id === watchedValues.subCategoryId)?.name}</p>
+          <p><strong>Title:</strong> {watchedValues.title}</p>
+          <p><strong>Description:</strong> {watchedValues.description}</p>
+          <p><strong>Budget:</strong> {watchedValues.budget}</p>
+          <p><strong>Duration:</strong> {watchedValues.duration} days</p>
+          <p><strong>Phone:</strong> {watchedValues.phoneNumber}</p>
+        </div>
+      </div>
+    </div>
   );
 }

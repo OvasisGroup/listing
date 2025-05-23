@@ -7,8 +7,8 @@ import { initiateStkPush } from '@/lib/mpesa';
 // Simple MPESA charge logic
 function calculateMpesaCharge(budget: number): number {
   if (budget <= 1000) return 10;
-  if (budget <= 3000) return 20;
-  if (budget <= 5000) return 35;
+  if (budget <= 3000) return 10;
+  if (budget <= 5000) return 10;
   return 500;
 }
 
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     title,
     description,
     budget,
-    categoryId,
+    subCategoryId, // corrected
     location,
     estateName,
     apartmentNumber,
@@ -37,11 +37,16 @@ export async function POST(req: NextRequest) {
     phoneNumber,
   } = body;
 
+  // Check required fields
   if (
     !title ||
     !description ||
     !budget ||
-    !categoryId ||
+    !subCategoryId || // corrected
+    !location ||
+    !estateName ||
+    !apartmentNumber ||
+    duration == null || // check for both null and undefined
     !phoneNumber
   ) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -65,12 +70,12 @@ export async function POST(req: NextRequest) {
           title,
           description,
           budget: numericBudget,
-          location: location || null,
-          estateName: estateName || null,
-          apartmentNumber: apartmentNumber || null,
-          duration: duration || null,
+          location,
+          estateName,
+          apartmentNumber,
+          duration,
           userId: session.id,
-          categoryId,
+          subCategoryId, // corrected
         },
       });
 
@@ -116,7 +121,7 @@ export async function GET() {
     const listings = await prisma.listing.findMany({
       include: {
         user: true,
-        category: true,
+        subCategory: true, // corrected
         payment: true,
         favoritedBy: true,
       },
